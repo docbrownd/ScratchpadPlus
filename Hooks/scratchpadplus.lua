@@ -84,9 +84,10 @@ end
 
 
 
-function clicOn(device, code, delay  )
+function clicOn(device, code, delay, position )
     delay = delay or 0
-    local datas ={device, code, delay}
+    position = position or 1
+    local datas ={device, code, delay, position}
     table.insert(DatasPlane,datas)
 end
 
@@ -97,18 +98,22 @@ function insertDatasInPlane()
     for i = dataIndex, #DatasPlane do
         
         if not doDepress then 
-            Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],1)
+            Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],DatasPlane[i][4])
             if DatasPlane[i][3] >0 then 
                 doDepress = true
             else 
-                Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],0)
+                if DatasPlane[i][4] == 1 then 
+                    Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],0)
+                end
                 dataIndex = dataIndex+1
             end
         else
             if counterFrame >= tmpFrame then 
                 dataIndex = dataIndex+1
                 counterFrame = 0
-                Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],0)
+                if DatasPlane[i][4] == 1 then 
+                    Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],0)
+                end
                 doDepress =false
             else 
                 counterFrame = counterFrame+1
@@ -137,7 +142,7 @@ function loadInM2000()
     local correspondance = {'3593','3584','3585','3586','3587','3588','3589','3590','3591','3592'}
 
     for i, v in ipairs(globalCoords) do
-        clicOn(9,"3574",10)
+        clicOn(9,"3574",10,0.4)
         clicOn(9,"3110",10)
         if firstInsertion then 
             clicOn(9,"3110",10)
@@ -173,7 +178,7 @@ function loadInM2000()
                 end
             end
         end
-        clicOn(9,"3574",10)
+        clicOn(9,"3574",10,0.3)
         clicOn(9,"3584",10)
         clicOn(9,"3584",10)
         for ii, vv in ipairs(v["alt"]) do 
@@ -188,7 +193,7 @@ function loadInM2000()
         clicOn(9,"3596",10)
         
     end 
-
+    clicOn(9,"3574",10,0.4)
     
     doLoadCoords = true
 end
