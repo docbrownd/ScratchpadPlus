@@ -463,7 +463,7 @@ function loadScratchpad()
         else
             log("Configuration not found, creating defaults...")
             config = {
-                hotkey = "Ctrl+Shift+x",
+                hotkey = "Ctrl+Shift+w",
                 windowPosition = {x = 200, y = 200},
                 windowSize = {w = 350, h = 150},
                 fontSize = 14
