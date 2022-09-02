@@ -5,17 +5,18 @@ Fork de Scratchpad avec création automatique de WPT
 
 L'installation et l'utilisation se fait de la même manière que pour Scratchpad voir ici : https://github.com/rkusa/dcs-scratchpad
 
+## Lancement
+L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
+
 ## Création de WPT
 
-Lors de la prise d'une coordonnée, une nouvelle ligne commençant par un "*" apparait : c'est la ligne qui sera insérée dans l'ordinateur de bord. 
+Lors de la prise d'une coordonnée, une nouvelle ligne commençant par un astérique apparait : c'est la ligne qui sera insérée dans l'ordinateur de bord. 
 Si on ne souhaite pas intégrer une coordonnée, il suffit de supprimer l'astérisque.
 
-Pour le F18, l'insertion se fait à partir de WPT n°2 et non du 1 (afin de préserver l'existence possible d'un WPT de type bullseye)
+Pour le F18 et le M2000, l'insertion se fait à partir de WPT n°2 et non du 1 (afin de préserver l'existence possible d'un WPT de type bullseye)
 
 ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 
-### Utilisation : 
-- L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 
 #### F18 : 
 
@@ -32,6 +33,10 @@ ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 
 - afficher le CDU 
 - cliquer sur "insert" et attendre
+
+#### M2000 :
+
+-cliquer simplement sur "insert"
 	
 
 NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord,
@@ -40,4 +45,4 @@ il faut donc soit effacer les coordonnées précédentes, soit retirer l'astéri
 
 ## TODO
 - possibilité d'indiquer à partir de quel WPT insérer les suivant
-- ajout du support du M2000 et F16
+- ajout du support du F16
