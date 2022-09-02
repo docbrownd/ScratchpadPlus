@@ -9,13 +9,9 @@ local dxgui = require('dxgui')
 
 package.path = package.path .. ";.\\Scripts\\?.lua;.\\Scripts\\UI\\?.lua;"
 package.path  = package.path..";"..lfs.currentdir().."/Scripts/?.lua"
-package.path  = package.path..";"..lfs.currentdir().."/Scripts/Scratchpad/planes/?.lua"
+package.path  = package.path..";"..lfs.currentdir().."/Scripts/ScratchpadPlus/planes/?.lua"
 
 
-
-package.path  = package.path..";"..lfs.currentdir().."/LuaSocket/?.lua"
-package.cpath = package.cpath..";"..lfs.currentdir().."/LuaSocket/?.dll"
-local socket = require("socket")
 
 -- Scratchpad resources
 local window = nil
@@ -23,7 +19,7 @@ local windowDefaultSkin = nil
 local windowSkinHidden = Skin.windowSkinChatMin()
 local panel = nil
 local textarea = nil
-local logFile = io.open(lfs.writedir() .. [[Logs\Scratchpad.log]], "w")
+local logFile = io.open(lfs.writedir() .. [[Logs\ScratchpadPlus.log]], "w")
 local config = nil
 
 local panel = nil
@@ -41,7 +37,7 @@ local keyboardLocked = false
 local inMission = false
 
 -- Pages State
-local dirPath = lfs.writedir() .. [[Scratchpad\]]
+local dirPath = lfs.writedir() .. [[ScratchpadPlus\]]
 local currentPage = nil
 local pagesCount = 0
 local pages = {}
@@ -133,10 +129,74 @@ function insertDatasInPlane()
 
 end
 
+function loadInM2000()
+    local indexCoords = {
+        "lat","long"
+    }
+    DatasPlane = {}
+    local correspondance = {'3593','3584','3585','3586','3587','3588','3589','3590','3591','3592'}
 
+    for i, v in ipairs(globalCoords) do
+        clicOn(9,"3574",10)
+        clicOn(9,"3110",10)
+        if firstInsertion then 
+            clicOn(9,"3110",10)
+            firstInsertion = false
+        end
+
+        clicOn(9,"3570",10)
+        clicOn(9,"3570",10)
+        clicOn(9,"3584",10)
+        for iii, vvv in ipairs(indexCoords) do
+            for ii, vv in ipairs(v[vvv]) do 
+                if vv == "N" then 
+                    clicOn(9,"3585",10)
+                elseif vv == "E" then
+                    clicOn(9,"3589",10)
+                elseif vv == "S" then
+                    clicOn(9,"3591",10)
+                elseif vv == "W" then
+                    clicOn(9,"3587",10)
+                elseif vv == "'" then 
+                    clicOn(9,"3596",10)
+                    if vvv == "lat" then 
+                        clicOn(9,"3586",10)
+                    end
+                else
+                    local position = tonumber(vv)
+                    if position ~=nil then 
+                        position = position+1
+                        if (correspondance[position] ~= nil) then 
+                            clicOn(9,correspondance[position],10)
+                        end
+                    end
+                end
+            end
+        end
+        clicOn(9,"3574",10)
+        clicOn(9,"3584",10)
+        clicOn(9,"3584",10)
+        for ii, vv in ipairs(v["alt"]) do 
+            local position = tonumber(vv)
+            if position ~=nil then 
+                position = position+1
+                if (correspondance[position] ~= nil) then 
+                    clicOn(9,correspondance[position],10)
+                end
+            end
+        end
+        clicOn(9,"3596",10)
+        
+    end 
+
+    
+    doLoadCoords = true
+end
 
 function loadInF18()
-
+    local indexCoords = {
+        "lat","long"
+    }
     DatasPlane = {}
     local correspondance = {'3018','3019','3020','3021','3022','3023','3024','3025','3026','3027'}
     clicOn(37,"3028",0)
@@ -152,44 +212,26 @@ function loadInF18()
 
         clicOn(37,"3015",40)
         clicOn(25,"3010",10)
-
-
-
-
       
-
-        for ii, vv in ipairs(v["lat"]) do 
-
-            if vv == "N" then 
-                clicOn(25,"3020",0)
-            elseif  vv == "S" then 
-                clicOn(25,"3026",0)
-            elseif (vv == "." or vv == "'") then 
-                clicOn(25,"3029",30)
-            else            
-                local position = tonumber(vv)
-                if position ~=nil then 
-                    position = position+1
-                    if (correspondance[position] ~= nil) then 
-                        clicOn(25,correspondance[position],0)
-                    end
-                end
-            end
-        end
-
-        for ii, vv in ipairs(v["long"]) do 
-            if vv == "E" then 
-                clicOn(25,"3024",0)
-            elseif  vv == "W" then 
-                clicOn(25,"3022",0)
-            elseif (vv == "." or vv == "'") then 
-                clicOn(25,"3029",30)
-            else            
-                local position = tonumber(vv)
-                if position ~=nil then 
-                    position = position+1
-                    if (correspondance[position] ~= nil) then 
-                        clicOn(25,correspondance[position],0)
+        for iii, vvv in ipairs(indexCoords) do
+            for ii, vv in ipairs(v[vvv]) do 
+                if vv == "N" then 
+                    clicOn(25,"3020",0)
+                elseif  vv == "S" then 
+                    clicOn(25,"3026",0)
+                elseif vv == "E" then 
+                    clicOn(25,"3024",0)
+                elseif vv == "W" then 
+                    clicOn(25,"3022",0)
+                elseif (vv == "." or vv == "'") then 
+                    clicOn(25,"3029",30)
+                else            
+                    local position = tonumber(vv)
+                    if position ~=nil then 
+                        position = position+1
+                        if (correspondance[position] ~= nil) then 
+                            clicOn(25,correspondance[position],0)
+                        end
                     end
                 end
             end
@@ -336,7 +378,7 @@ function loadScratchpad()
         end
 
         log("saving page " .. path)
-        lfs.mkdir(lfs.writedir() .. [[Scratchpad\]])
+        lfs.mkdir(lfs.writedir() .. [[ScratchpadPlus\]])
         local mode = "a"
         if override then
             mode = "w"
@@ -399,7 +441,7 @@ function loadScratchpad()
 
     function loadConfiguration()
         log("Loading config file...")
-        local tbl = Tools.safeDoFile(lfs.writedir() .. "Config/ScratchpadConfig.lua", false)
+        local tbl = Tools.safeDoFile(lfs.writedir() .. "Config/ScratchpadPlusConfig.lua", false)
         if (tbl and tbl.config) then
             log("Configuration exists...")
             config = tbl.config
@@ -468,7 +510,7 @@ function loadScratchpad()
     end
 
     function saveConfiguration()
-        U.saveInFile(config, "config", lfs.writedir() .. "Config/ScratchpadConfig.lua")
+        U.saveInFile(config, "config", lfs.writedir() .. "Config/ScratchpadPlusConfig.lua")
     end
 
     function unlockKeyboardInput(releaseKeyboardKeys)
@@ -628,6 +670,8 @@ function loadScratchpad()
             loadInA10()
         elseif planeType == "FA-18C_hornet" then
             loadInF18()
+        elseif planeType == "M-2000C" then 
+            loadInM2000()
         end
 
      end
@@ -752,7 +796,7 @@ function loadScratchpad()
         end
 
         crosshairWindow = DialogLoader.spawnDialogFromFile(
-            lfs.writedir() .. "Scripts\\Scratchpad\\CrosshairWindow.dlg",
+            lfs.writedir() .. "Scripts\\ScratchpadPlus\\CrosshairWindow.dlg",
             cdata
         )
 
@@ -772,7 +816,7 @@ function loadScratchpad()
         createCrosshairWindow()
 
         window = DialogLoader.spawnDialogFromFile(
-            lfs.writedir() .. "Scripts\\Scratchpad\\ScratchpadWindow.dlg",
+            lfs.writedir() .. "Scripts\\ScratchpadPlus\\ScratchpadWindow.dlg",
             cdata
         )
 
