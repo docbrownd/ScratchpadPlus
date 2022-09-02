@@ -11,16 +11,16 @@ ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 Utilisation : 
 
 F18 : 
+
 	- dans HSI>DATA, boxer "Precise" 
 	- au niveau de l'AMPCD : Afficher n'importe quelle page, SAUF la page "TAC"
 	- cliquer sur "insert" et attendre 
 
 
 A10 : 
-	- il est possible de nommer un WPT, pour cela ajouter le nom juste après l'astérique et avant le premier '|'. ex : 
 
-	*|N 41°55.590'|E 044°10.440'|3140 => *T90|N 41°55.590'|E 044°10.440'|3140  => le WPT aura pour nom "T90"
-
+	- il est possible de nommer un WPT, pour cela ajouter le nom juste après l'astérique et avant le premier '|'.
+	ex : *|N 41°55.590'|E 044°10.440'|3140 => *T90|N 41°55.590'|E 044°10.440'|3140  => le WPT aura pour nom "T90"
 	- afficher le CDU 
 	- cliquer sur "insert" et attendre
 	
