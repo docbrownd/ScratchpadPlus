@@ -1,0 +1,272 @@
+dialog = {
+    ["type"] = "Window",
+    ["params"] = {
+        ["bounds"] = {
+            [1] = {
+                ["h"] = 200,
+                ["w"] = 350,
+                ["x"] = 0,
+                ["y"] = 0
+            }
+        },
+        ["draggable"] = true,
+        ["enabled"] = true,
+        ["hasCursor"] = true,
+        ["lockFlow"] = false,
+        ["modal"] = false,
+        ["offscreen"] = false,
+        ["resizable"] = true,
+        ["zOrder"] = 112,
+        ["text"] = "Scratchpad"
+    },
+    ["skin"] = {
+        ["params"] = {
+            ["name"] = "windowSkin"
+        },
+        ["skins"] = {
+            ["header"] = {
+                ["skinData"] = {
+                    ["params"] = {
+                        ["hasCloseButton"] = false,
+                        ["insets"] = {
+                            ["bottom"] = 2,
+                            ["left"] = 2,
+                            ["right"] = 2,
+                            ["top"] = 2
+                        }
+                    },
+                    ["states"] = {
+                        ["released"] = {
+                            [1] = {
+                                ["bkg"] = {
+                                    ["center_center"] = "0x00000066"
+                                },
+                                ["text"] = {
+                                    ["color"] = "0xffffffaa"
+                                }
+                            },
+                            [2] = {
+                                ["bkg"] = {
+                                    ["center_center"] = "0x00000066"
+                                },
+                                ["text"] = {
+                                    ["color"] = "0xffffffaa"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        ["states"] = {
+            ["released"] = {
+                [1] = {
+                    ["bkg"] = {
+                        ["center_center"] = "0x00000000"
+                    }
+                }
+            }
+        }
+    },
+    ["children"] = {
+        ["Box"] = {
+            ["children"] = {
+                ["ScratchpadPrevButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 50,
+                            ["x"] = 0,
+                            ["y"] = 180
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "←",
+                        ["tooltip"] = "Previous Page",
+                        ["visible"] = true,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+                ["ScratchpadNextButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 50,
+                            ["x"] = 55,
+                            ["y"] = 180
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "→",
+                        ["tooltip"] = "Next Page",
+                        ["visible"] = true,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+                ["ScratchpadCrosshairCheckBox"] = {
+					["params"] = {
+						["bounds"] = {
+							["h"] = 20,
+							["w"] = 20,
+							["x"] = 110,
+							["y"] = 181,
+						},
+						["enabled"] = true,
+						["state"] = false,
+						["tabOrder"] = 140,
+						["text"] = "",
+						["tooltip"] = "",
+						["visible"] = true,
+						["zindex"] = 0,
+					},
+					["skin"] = {
+						["params"] = {
+							["name"] = "checkBoxSkin_MENew",
+						},
+					},
+					["type"] = "CheckBox",
+				},
+                ["ScratchpadInsertCoordsButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 120,
+                            ["x"] = 105,
+                            ["y"] = 180
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "+L/L",
+                        ["tooltip"] = "Insert Coords",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+                ["ScratchpadInsertButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 120,
+                            ["x"] = 105,
+                            ["y"] = 180
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Insert",
+                        ["tooltip"] = "Insert Coords in plane",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+                ["ScratchpadCleanButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 120,
+                            ["x"] = 105,
+                            ["y"] = 180
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Clean",
+                        ["tooltip"] = "Clean text",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+                ["ScratchpadEditBox"] = {
+                    ["params"] = {
+                        ["acceptDecimalPoint"] = false,
+                        ["bounds"] = {
+                            ["h"] = 180,
+                            ["w"] = 350,
+                            ["x"] = 0,
+                            ["y"] = 20
+                        },
+                        ["enabled"] = true,
+                        ["multiline"] = true,
+                        ["numeric"] = false,
+                        ["password"] = false,
+                        ["readOnly"] = false,
+                        ["tabOrder"] = 80,
+                        ["text"] = "...",
+                        ["textWrapping"] = true,
+                        ["tooltip"] = "",
+                        ["visible"] = true,
+                        ["zindex"] = 0
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "editBoxNew"
+                        },
+                        ["states"] = {
+                            ["released"] = {
+                                [1] = {
+                                    ["bkg"] = {
+                                        ["center_center"] = "0x00000080"
+                                    },
+                                    ["text"] = {
+                                        ["font"] = "CONSOLA.TTF",
+                                        ["lineHeight"] = 10
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    ["type"] = "EditBox"
+                }
+            },
+            ["params"] = {
+                ["bounds"] = {
+                    [1] = {
+                        ["h"] = 200,
+                        ["w"] = 350,
+                        ["x"] = 0,
+                        ["y"] = 0
+                    }
+                },
+                ["enabled"] = true,
+                ["text"] = "",
+                ["tooltip"] = "",
+                ["visible"] = true,
+                ["zindex"] = 0
+            },
+            ["skin"] = {
+                ["params"] = {
+                    ["name"] = "panelSkin"
+                }
+            },
+            ["type"] = "Panel"
+        }
+    }
+}
