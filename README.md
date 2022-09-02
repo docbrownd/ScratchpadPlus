@@ -15,6 +15,7 @@ Pour le F18, l'insertion se fait à partir de WPT n°2 et non du 1 (afin de pré
 ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 
 ### Utilisation : 
+- L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 
 #### F18 : 
 
