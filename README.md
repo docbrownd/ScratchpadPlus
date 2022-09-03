@@ -31,7 +31,8 @@ ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 
 	ex : *|N 41°55.590'|E 044°10.440'|3140 => *T90|N 41°55.590'|E 044°10.440'|3140  => le WPT aura pour nom "T90"
 
-- afficher le CDU 
+- aller sur l'écran CDU
+- Mettre le selecteur PAGE sur Other (et non sur Steer)
 - cliquer sur "insert" et attendre
 
 #### M2000 :
