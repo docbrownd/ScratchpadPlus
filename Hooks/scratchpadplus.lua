@@ -215,7 +215,7 @@ function loadInF18()
             firstInsertion = false
         end
 
-        clicOn(37,"3015",40)
+        clicOn(37,"3015",30)
         clicOn(25,"3010",10)
       
         for iii, vvv in ipairs(indexCoords) do
@@ -304,8 +304,8 @@ function loadInA10()
         ['z']='3052',
     }
 
-    clicOn(9,'3011')
-    clicOn(9,'3005')
+    clicOn(9,'3011',10)
+    clicOn(9,'3005',0)
 
     for i, v in ipairs(globalCoords) do
         for ii, vv in ipairs(v["wptName"]) do 
