@@ -304,8 +304,8 @@ function loadInA10()
         ['z']='3052',
     }
 
-    clicOn(9,'3011',10)
-    clicOn(9,'3005',0)
+    -- clicOn(9,'3011',10)
+    -- clicOn(9,'3005',0)
 
     for i, v in ipairs(globalCoords) do
         for ii, vv in ipairs(v["wptName"]) do 
