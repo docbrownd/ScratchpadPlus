@@ -109,6 +109,7 @@ function insertDatasInPlane()
             end
         else
             if counterFrame >= tonumber(DatasPlane[i][3]) then 
+                log(tostring(tonumber(DatasPlane[i][3])))
                 dataIndex = dataIndex+1
                 counterFrame = 0
                 if DatasPlane[i][4] == 1 then 
@@ -216,7 +217,7 @@ function loadInF18()
         end
 
         clicOn(37,"3015",40)
-        clicOn(25,"3010",10)
+        clicOn(25,"3010",40)
       
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
@@ -242,8 +243,8 @@ function loadInF18()
             end
         end
 
-        clicOn(25,"3012",10)
-        clicOn(25,"3010",10)
+        clicOn(25,"3012",40)
+        clicOn(25,"3010",40)
         for ii, vv in ipairs(v["alt"]) do 
             local position = tonumber(vv)
             if position ~=nil then 
@@ -725,8 +726,8 @@ function loadScratchpad()
         nextButton:setBounds(55, h - 40, 50, 20)
         crosshairCheckbox:setBounds(120, h - 39, 20, 20)
 
-        cleanButton:setBounds(160,h-40,50,20)
-        insertInPlane:setBounds(230,h-40,60,20)
+        cleanButton:setBounds(200,h-40,50,20)
+        insertInPlane:setBounds(270,h-40,60,20)
         
         if pagesCount > 1 then
             insertCoordsBtn:setBounds(145, h - 40, 50, 20)
