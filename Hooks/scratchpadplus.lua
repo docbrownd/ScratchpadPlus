@@ -109,7 +109,6 @@ function insertDatasInPlane()
             end
         else
             if counterFrame >= tonumber(DatasPlane[i][3]) then 
-                log(tostring(tonumber(DatasPlane[i][3])))
                 dataIndex = dataIndex+1
                 counterFrame = 0
                 if DatasPlane[i][4] == 1 then 
@@ -205,7 +204,7 @@ function loadInF18()
     }
     DatasPlane = {}
     local correspondance = {'3018','3019','3020','3021','3022','3023','3024','3025','3026','3027'}
-    clicOn(37,"3028",0)
+    clicOn(37,"3028",40)
     clicOn(37,"3028",0)
     clicOn(37,"3012",0)
     clicOn(37,"3020",0)
@@ -216,8 +215,8 @@ function loadInF18()
             firstInsertion = false
         end
 
-        clicOn(37,"3015",40)
-        clicOn(25,"3010",40)
+        clicOn(37,"3015",50)
+        clicOn(25,"3010",50)
       
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
@@ -243,8 +242,8 @@ function loadInF18()
             end
         end
 
-        clicOn(25,"3012",40)
-        clicOn(25,"3010",40)
+        clicOn(25,"3012",50)
+        clicOn(25,"3010",50)
         for ii, vv in ipairs(v["alt"]) do 
             local position = tonumber(vv)
             if position ~=nil then 
@@ -254,7 +253,7 @@ function loadInF18()
                 end
             end
         end
-        clicOn(25,"3029",30)
+        clicOn(25,"3029",40)
 
     end
     
