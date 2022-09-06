@@ -108,7 +108,7 @@ function insertDatasInPlane()
                 dataIndex = dataIndex+1
             end
         else
-            if counterFrame >= tmpFrame then 
+            if counterFrame >= tonumber(DatasPlane[i][3]) then 
                 dataIndex = dataIndex+1
                 counterFrame = 0
                 if DatasPlane[i][4] == 1 then 
@@ -215,7 +215,7 @@ function loadInF18()
             firstInsertion = false
         end
 
-        clicOn(37,"3015",30)
+        clicOn(37,"3015",40)
         clicOn(25,"3010",10)
       
         for iii, vvv in ipairs(indexCoords) do
