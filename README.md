@@ -46,3 +46,6 @@ il faut donc soit effacer les coordonnées précédentes, soit retirer l'astéri
 ## TODO
 - possibilité d'indiquer à partir de quel WPT insérer les suivant
 - ajout du support du F16
+
+## Limitation
+- A10 : Une fois le 50ième WPT atteint il n'est plus possible d'en insérer de nouveau avec ScratchpadPlus. 
