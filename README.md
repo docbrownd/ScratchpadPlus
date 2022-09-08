@@ -34,6 +34,8 @@ ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 - aller sur l'écran CDU, Page WPT
 - cliquer sur "insert" et attendre
 
+- Remarque : L'A10 ne permet de rentrer que 50 WPT, une fois cette limite atteinte, il est nécessaire de modifier les WPT déjà créés. Pour indiquer à ScratchpadPlus qu'il doit modifier les WPT, il faut insérer un # au niveau de la première ligne de ScratchpadPlus. 
+
 #### M2000 :
 
 -cliquer simplement sur "insert"
@@ -47,5 +49,3 @@ il faut donc soit effacer les coordonnées précédentes, soit retirer l'astéri
 - possibilité d'indiquer à partir de quel WPT insérer les suivants
 - ajout du support du F16
 
-## Limitation
-- A10 : Une fois le 50ième WPT atteint il n'est plus possible d'en insérer de nouveau avec ScratchpadPlus. 

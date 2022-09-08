@@ -63,6 +63,8 @@ local counterFrame = 0
 local tmpFrame = 40
 local doDepress = false
 
+local insertA10withWPT = false
+
 function log(str)
     if not str then
         return
@@ -144,10 +146,10 @@ function loadInM2000()
     for i, v in ipairs(globalCoords) do
         clicOn(9,"3574",10,0.4)
         clicOn(9,"3110",10)
-        if firstInsertion then 
+        -- if firstInsertion then 
             clicOn(9,"3110",10)
-            firstInsertion = false
-        end
+            -- firstInsertion = false
+        -- end
 
         clicOn(9,"3570",10)
         clicOn(9,"3570",10)
@@ -199,6 +201,7 @@ function loadInM2000()
 end
 
 function loadInF18()
+
     local indexCoords = {
         "lat","long"
     }
@@ -210,10 +213,10 @@ function loadInF18()
     clicOn(37,"3020",0)
     for i, v in ipairs(globalCoords) do
         clicOn(37,"3022",20)
-        if firstInsertion then 
+        -- if firstInsertion then 
             clicOn(37,"3022",20)
-            firstInsertion = false
-        end
+            -- firstInsertion = false
+        -- end
 
         clicOn(37,"3015",50)
         clicOn(25,"3010",50)
@@ -261,6 +264,8 @@ function loadInF18()
 end
 
 function loadInA10()
+
+    
     DatasPlane = {}
     local indexCoords = {
         "lat","long"
@@ -306,15 +311,45 @@ function loadInA10()
 
     -- clicOn(9,'3011',10)
     -- clicOn(9,'3005',0)
+   
+
+ 
 
     for i, v in ipairs(globalCoords) do
+
+        local hasName = false
+
+        if insertA10withWPT then 
+            local digits = tostring(i)
+            log(digits)
+   
+
+            if i>9 then 
+                clicOn(9,correspondances[string.sub(digits,1,1)])
+                clicOn(9,correspondances[string.sub(digits,2,2)])
+            else 
+                clicOn(9,correspondances[tostring(i)])
+            end
+            
+            clicOn(9,'3001') 
+        end
+
+
         for ii, vv in ipairs(v["wptName"]) do 
             if vv ~= "" then
+                hasName = true
                 local value = string.lower(vv)
                 clicOn(9,correspondances[value])
             end
         end
-        clicOn(9,'3007')
+
+        if not insertA10withWPT then 
+            clicOn(9,'3007') 
+        else 
+            if hasName then 
+                clicOn(9,'3005') 
+            end
+        end
 
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
@@ -661,12 +696,16 @@ function loadScratchpad()
         local oldoffset = 1
 
         local lineText = split(text,"\n")
+        insertA10withWPT = false
         for i = 1, #lineText do
             if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil)  then
                 if string.sub(lineText[i], 1,1) == "*" then 
                     local lineDatas = lineText[i]:gsub("*","")
                     local splitCoords = split(lineDatas,"|")
                     addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1])
+                end
+                if  string.sub(lineText[i], 1,1) == "#" then
+                    insertA10withWPT = true
                 end
             end
         end
