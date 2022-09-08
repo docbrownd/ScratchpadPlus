@@ -211,10 +211,11 @@ function loadInF18()
     clicOn(37,"3028",0)
     clicOn(37,"3012",0)
     clicOn(37,"3020",0)
+    clicOn(37,"3022",20)
     for i, v in ipairs(globalCoords) do
         clicOn(37,"3022",20)
         -- if firstInsertion then 
-            clicOn(37,"3022",20)
+            -- clicOn(37,"3022",20)
             -- firstInsertion = false
         -- end
 
