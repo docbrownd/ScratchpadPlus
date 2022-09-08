@@ -44,7 +44,7 @@ il faut donc soit effacer les coordonnées précédentes, soit retirer l'astéri
 
 
 ## TODO
-- possibilité d'indiquer à partir de quel WPT insérer les suivant
+- possibilité d'indiquer à partir de quel WPT insérer les suivants
 - ajout du support du F16
 
 ## Limitation
