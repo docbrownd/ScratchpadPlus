@@ -321,8 +321,6 @@ function loadInA10()
 
         if insertA10withWPT then 
             local digits = tostring(i)
-            log(digits)
-   
 
             if i>9 then 
                 clicOn(9,correspondances[string.sub(digits,1,1)])
