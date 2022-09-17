@@ -225,13 +225,13 @@ function loadInF18()
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
                 if vv == "N" then 
-                    clicOn(25,"3020",10)
+                    clicOn(25,"3020",0)
                 elseif  vv == "S" then 
-                    clicOn(25,"3026",10)
+                    clicOn(25,"3026",0)
                 elseif vv == "E" then 
-                    clicOn(25,"3024",10)
+                    clicOn(25,"3024",0)
                 elseif vv == "W" then 
-                    clicOn(25,"3022",10)
+                    clicOn(25,"3022",0)
                 elseif (vv == "." or vv == "'") then 
                     clicOn(25,"3029",30)
                 else            
@@ -239,7 +239,7 @@ function loadInF18()
                     if position ~=nil then 
                         position = position+1
                         if (correspondance[position] ~= nil) then 
-                            clicOn(25,correspondance[position],10)
+                            clicOn(25,correspondance[position],0)
                         end
                     end
                 end
