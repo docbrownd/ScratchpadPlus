@@ -11,6 +11,7 @@ package.path = package.path .. ";.\\Scripts\\?.lua;.\\Scripts\\UI\\?.lua;"
 package.path  = package.path..";"..lfs.currentdir().."/Scripts/?.lua"
 package.path  = package.path..";"..lfs.currentdir().."/Scripts/ScratchpadPlus/planes/?.lua"
 
+Terrain = require('terrain')
 
 
 -- Scratchpad resources
