@@ -41,11 +41,16 @@ ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 -cliquer simplement sur "insert"
 	
 
+#### F16 : 
+
+- -cliquer simplement sur "insert"
+
+
 NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord,
 il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
 
 
 ## TODO
 - possibilité d'indiquer à partir de quel WPT insérer les suivants
-- ajout du support du F16
+
 
