@@ -54,3 +54,6 @@ il faut donc soit effacer les coordonnées précédentes, soit retirer l'astéri
 - possibilité d'indiquer à partir de quel WPT insérer les suivants
 
 
+## Bug connu
+
+ - en dehors de l'A10, si trop de fps (>100), l'insertion des WPT peut planter (notamment en F18)
