@@ -105,7 +105,7 @@ function insertDatasInPlane()
             if DatasPlane[i][3] >0 then 
                 doDepress = true
             else 
-                if DatasPlane[i][4] == 1 then 
+                if DatasPlane[i][4] == 1 or DatasPlane[i][4] == -1 then 
                     Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],0)
                 end
                 dataIndex = dataIndex+1
@@ -114,7 +114,7 @@ function insertDatasInPlane()
             if counterFrame >= tonumber(DatasPlane[i][3]) then 
                 dataIndex = dataIndex+1
                 counterFrame = 0
-                if DatasPlane[i][4] == 1 then 
+                if DatasPlane[i][4] == 1 or DatasPlane[i][4] == -1 then 
                     Export.GetDevice(DatasPlane[i][1]):performClickableAction(DatasPlane[i][2],0)
                 end
                 doDepress =false
@@ -199,6 +199,79 @@ function loadInM2000()
     clicOn(9,"3574",10,0.4)
     
     doLoadCoords = true
+end
+
+
+function loadInF16()
+    DatasPlane = {}
+
+    local indexCoords = {
+        "lat","long"
+    }
+
+    local correspondance = {'3002','3003','3004','3005','3006','3007','3008','3009','3010','3011','3027'}
+
+
+    clicOn(17,"3032",20, -1)
+    clicOn(17,"3006",10)
+
+    for i, v in ipairs(globalCoords) do
+        clicOn(17,"3030",10)
+        clicOn(17,"3035",20,-1)
+        clicOn(17,"3035",20,-1)
+
+        for iii, vvv in ipairs(indexCoords) do
+            for ii, vv in ipairs(v[vvv]) do 
+                if vv == "N" then 
+                    clicOn(17,"3004",10)
+                elseif  vv == "S" then 
+                    clicOn(17,"3010",10)
+                elseif vv == "E" then 
+                    clicOn(17,"3008",10)
+                elseif vv == "W" then 
+                    clicOn(17,"3006",10)
+                elseif (vv == "." or vv == "'") then 
+                else            
+                    local position = tonumber(vv)
+                    if position ~=nil then 
+                        position = position+1
+                        if (correspondance[position] ~= nil) then 
+                            clicOn(17,correspondance[position],10)
+                        end
+                    end
+                end
+            end
+            clicOn(17,"3016",10)
+            clicOn(17,"3035",20,-1)
+        end
+
+        for ii, vv in ipairs(v["alt"]) do 
+            local position = tonumber(vv)
+            if position ~=nil then 
+                position = position+1
+                if (correspondance[position] ~= nil) then 
+                    clicOn(17,correspondance[position],10)
+                end
+            end
+        end
+        clicOn(17,"3016",10)
+
+        clicOn(17,"3034",20)
+        clicOn(17,"3034",20)
+        clicOn(17,"3034",20)
+        clicOn(17,"3034",20)
+
+
+
+    end
+
+
+        clicOn(17,"3032",20,-1)
+
+
+
+        doLoadCoords = true
+
 end
 
 function loadInF18()
@@ -710,12 +783,15 @@ function loadScratchpad()
             end
         end
         local planeType = DCS.getPlayerUnitType()
+
         if planeType == "A-10C_2" then
             loadInA10()
         elseif planeType == "FA-18C_hornet" then
             loadInF18()
         elseif planeType == "M-2000C" then 
             loadInM2000()
+        elseif planeType == "F-16C_50" then 
+            loadInF16()
         end
 
      end
