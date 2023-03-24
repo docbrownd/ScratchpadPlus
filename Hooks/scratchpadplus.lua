@@ -282,10 +282,10 @@ function loadInF18()
     DatasPlane = {}
     local correspondance = {'3018','3019','3020','3021','3022','3023','3024','3025','3026','3027'}
     clicOn(37,"3028",40)
-    clicOn(37,"3028",0)
-    clicOn(37,"3012",0)
-    clicOn(37,"3020",0)
-    clicOn(37,"3022",20)
+    clicOn(37,"3028",40)
+    clicOn(37,"3012",40)
+    clicOn(37,"3020",40)
+    -- clicOn(37,"3022",40)
     for i, v in ipairs(globalCoords) do
         clicOn(37,"3022",20)
         -- if firstInsertion then 
@@ -332,7 +332,7 @@ function loadInF18()
             end
         end
         clicOn(25,"3029",40)
-
+        
     end
     
     doLoadCoords = true
