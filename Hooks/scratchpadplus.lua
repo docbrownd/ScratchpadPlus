@@ -145,55 +145,55 @@ function loadInM2000()
     local correspondance = {'3593','3584','3585','3586','3587','3588','3589','3590','3591','3592'}
 
     for i, v in ipairs(globalCoords) do
-        clicOn(9,"3574",10,0.4)
-        clicOn(9,"3110",10)
-        -- if firstInsertion then 
-         --   clicOn(9,"3110",10)
-            -- firstInsertion = false
+        clicOn(9,"3574",20,0.4)
+        clicOn(9,"3110",20)
+        --  if firstInsertion then 
+        --     clicOn(9,"3110",10)
+        --     firstInsertion = false
         -- end
 
-        clicOn(9,"3570",10)
-        clicOn(9,"3570",10)
-        clicOn(9,"3584",10)
+        clicOn(9,"3570",20)
+        clicOn(9,"3570",20)
+        clicOn(9,"3584",20)
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
                 if vv == "N" then 
-                    clicOn(9,"3585",10)
+                    clicOn(9,"3585",20)
                 elseif vv == "E" then
-                    clicOn(9,"3589",10)
+                    clicOn(9,"3589",20)
                 elseif vv == "S" then
-                    clicOn(9,"3591",10)
+                    clicOn(9,"3591",20)
                 elseif vv == "W" then
-                    clicOn(9,"3587",10)
+                    clicOn(9,"3587",20)
                 elseif vv == "'" then 
-                    clicOn(9,"3596",10)
+                    clicOn(9,"3596",20)
                     if vvv == "lat" then 
-                        clicOn(9,"3586",10)
+                        clicOn(9,"3586",20)
                     end
                 else
                     local position = tonumber(vv)
                     if position ~=nil then 
                         position = position+1
                         if (correspondance[position] ~= nil) then 
-                            clicOn(9,correspondance[position],10)
+                            clicOn(9,correspondance[position],20)
                         end
                     end
                 end
             end
         end
-        clicOn(9,"3574",10,0.3)
-        clicOn(9,"3584",10)
-        clicOn(9,"3584",10)
+        clicOn(9,"3574",20,0.3)
+        clicOn(9,"3584",20)
+        clicOn(9,"3584",20)
         for ii, vv in ipairs(v["alt"]) do 
             local position = tonumber(vv)
             if position ~=nil then 
                 position = position+1
                 if (correspondance[position] ~= nil) then 
-                    clicOn(9,correspondance[position],10)
+                    clicOn(9,correspondance[position],20)
                 end
             end
         end
-        clicOn(9,"3596",10)
+        clicOn(9,"3596",20)
         
     end 
     clicOn(9,"3574",10,0.4)
@@ -822,6 +822,7 @@ function loadScratchpad()
         result = result .. "*|".. formatCoord("DDM", true, lat).. "|" .. formatCoord("DDM", false, lon) .."|" .. string.format("%.0f", alt*3.28084).. "\n\n"
 
         addText(result)
+
         insertInPlane:setVisible(true)
         cleanButton:setVisible(true)
 
