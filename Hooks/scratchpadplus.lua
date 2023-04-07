@@ -148,7 +148,7 @@ function loadInM2000()
         clicOn(9,"3574",10,0.4)
         clicOn(9,"3110",10)
         -- if firstInsertion then 
-            clicOn(9,"3110",10)
+         --   clicOn(9,"3110",10)
             -- firstInsertion = false
         -- end
 
