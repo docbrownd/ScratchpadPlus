@@ -13,8 +13,6 @@ L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 Lors de la prise d'une coordonnée, une nouvelle ligne commençant par un astérique apparait : c'est la ligne qui sera insérée dans l'ordinateur de bord. 
 Si on ne souhaite pas intégrer une coordonnée, il suffit de supprimer l'astérisque.
 
-Pour le M2000, l'insertion se fait à partir de WPT N+2 et non N+1 (afin de préserver l'existence possible d'un WPT de type bullseye)
-
 ATTENTION : s'il existe des WPT, ils seront écrasés
 
 
