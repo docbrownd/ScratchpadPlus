@@ -13,9 +13,9 @@ L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 Lors de la prise d'une coordonnée, une nouvelle ligne commençant par un astérique apparait : c'est la ligne qui sera insérée dans l'ordinateur de bord. 
 Si on ne souhaite pas intégrer une coordonnée, il suffit de supprimer l'astérisque.
 
-Pour le F18 et le M2000, l'insertion se fait à partir de WPT n°2 et non du 1 (afin de préserver l'existence possible d'un WPT de type bullseye)
+Pour le M2000, l'insertion se fait à partir de WPT N+2 et non N+1 (afin de préserver l'existence possible d'un WPT de type bullseye)
 
-ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
+ATTENTION : s'il existe des WPT, ils seront écrasés
 
 
 #### F18 : 
@@ -45,15 +45,11 @@ ATTENTION : s'il existe des WPT au delà du n°1, ils seront écrasés
 
 - -cliquer simplement sur "insert"
 
-
-NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord,
-il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
+##
+NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord, il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
 
 
 ## TODO
 - possibilité d'indiquer à partir de quel WPT insérer les suivants
 
 
-## Bug connu
-
- - en dehors de l'A10, si trop de fps (>100), l'insertion des WPT peut planter (notamment en F18)
