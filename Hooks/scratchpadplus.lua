@@ -303,11 +303,11 @@ function loadInF18()
                 elseif  vv == "S" then 
                     clicOn(25,"3026",0)
                 elseif vv == "E" then 
-                    clicOn(25,"3024",0)
+                    clicOn(25,"3024",10)
                 elseif vv == "W" then 
-                    clicOn(25,"3022",0)
+                    clicOn(25,"3022",10)
                 elseif (vv == "." or vv == "'") then 
-                    clicOn(25,"3029",50)
+                    clicOn(25,"3029",60)
                 else            
                     local position = tonumber(vv)
                     if position ~=nil then 
