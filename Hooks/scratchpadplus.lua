@@ -395,23 +395,32 @@ function loadInF15E()
 
     DatasPlane = {}
 
+    if (insertA10withWPT) then 
+        f15Number = 0
+    end
+
     clicOn(deviceF15, commande.accessSTR, F15TimePress)
 
-    for i, v in ipairs(globalCoords) do
+    
 
-        for ii, vv in ipairs(v["wptName"]) do 
-            if (vv == ".") then 
-                clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
-            else 
-                local position = tonumber(vv)
-                if position ~=nil then 
-                    position = position+1
-                    if (correspondances[position] ~= nil) then 
-                        clicOn(deviceF15,correspondances[position],F15TimePress)
+    for i, v in ipairs(globalCoords) do
+        if (insertA10withWPT) then 
+            f15Number = f15Number + 1
+            clicOn(deviceF15,correspondances[f15Number],F15TimePress)
+        else 
+            for ii, vv in ipairs(v["wptName"]) do 
+                if (vv == ".") then 
+                    clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
+                else 
+                    local position = tonumber(vv)
+                    if position ~=nil then 
+                        position = position+1
+                        if (correspondances[position] ~= nil) then 
+                            clicOn(deviceF15,correspondances[position],F15TimePress)
+                        end
                     end
                 end
             end
-
         end
 
 
@@ -480,7 +489,7 @@ function loadInF15E()
     end
 
 
-
+    insertA10withWPT = false
     
     doLoadCoords = true
     
