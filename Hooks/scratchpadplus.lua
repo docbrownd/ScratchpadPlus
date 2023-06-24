@@ -23,6 +23,8 @@ local textarea = nil
 local logFile = io.open(lfs.writedir() .. [[Logs\ScratchpadPlus.log]], "w")
 local config = nil
 
+local f15Number = 0
+
 local panel = nil
 local textarea = nil
 local crosshairCheckbox = nil
@@ -46,7 +48,6 @@ local pages = {}
 -- Crosshair resources
 local crosshairWindow = nil
 
-
 -- test --
 
 local data
@@ -66,7 +67,10 @@ local doDepress = false
 
 local insertA10withWPT = false
 
-function log(str)
+
+
+
+function log(str) -- write in file (Logs\ScratchpadPlus.log by default)
     if not str then
         return
     end
@@ -95,7 +99,6 @@ function clicOn(device, code, delay, position )
 end
 
 function insertDatasInPlane()
-
 
 
     for i = dataIndex, #DatasPlane do
@@ -200,6 +203,8 @@ function loadInM2000()
     
     doLoadCoords = true
 end
+
+
 
 
 function loadInF16()
@@ -338,6 +343,153 @@ function loadInF18()
     doLoadCoords = true
 end
 
+
+
+function loadInF15E()
+    --[[
+         for F15 : 
+            - use B wpt system 
+            - add wpt number in insert system 
+            - use can modif value
+            - to insert
+    
+    ]]
+    
+    --[[
+        process : 
+         - user on menu ! 
+         - clique on PB10 
+    
+    ]]
+
+    local deviceF15 = 56
+    local F15TimePress = 10
+
+
+    log("in f15")
+
+    local correspondances = {  --0 to 9
+        '3036','3020','3021','3022','3025','3026','3027','3030','3031','3032'
+    }
+    
+    local textCorrepondance = {  
+        ['A'] = "3020",
+        ['B'] = "3022",
+        ['C'] = "3032",
+        
+}
+
+    local commande = {
+        ['accessSTR'] = "3010",
+        ['shift'] = "3033", 
+        ["changeWPT"] = "3001",
+        ["addToLat"] = "3002",
+        ["addToLong"] = "3003",
+        ["addToAlt"] = "3007",
+        ["north"] = "3021",
+        ["south"] = "3031",
+        ["east"] = "3027",
+        ["west"] = "3025"
+    }
+
+
+    DatasPlane = {}
+
+    clicOn(deviceF15, commande.accessSTR, F15TimePress)
+
+    for i, v in ipairs(globalCoords) do
+
+        for ii, vv in ipairs(v["wptName"]) do 
+            if (vv == ".") then 
+                clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
+            else 
+                local position = tonumber(vv)
+                if position ~=nil then 
+                    position = position+1
+                    if (correspondances[position] ~= nil) then 
+                        clicOn(deviceF15,correspondances[position],F15TimePress)
+                    end
+                end
+            end
+
+        end
+
+
+        clicOn(deviceF15, commande.shift,F15TimePress)
+        clicOn(deviceF15, textCorrepondance["B"],F15TimePress)
+
+        clicOn(deviceF15, commande.changeWPT, F15TimePress)
+
+
+        local indexCoords = {
+            "lat","long", 'alt'
+        }
+
+
+        for iii, vvv in ipairs(indexCoords) do
+            for ii, vv in ipairs(v[vvv]) do 
+                if vv == "N" then 
+                    clicOn(deviceF15, commande.shift,F15TimePress)
+                    clicOn(deviceF15, commande.north,F15TimePress)
+                elseif  vv == "S" then 
+                    clicOn(deviceF15, commande.shift,F15TimePress)
+                    clicOn(deviceF15, commande.south,F15TimePress)
+                elseif vv == "E" then 
+                    clicOn(deviceF15, commande.shift,F15TimePress)
+                    clicOn(deviceF15, commande.east,F15TimePress)
+                elseif vv == "W" then 
+                    clicOn(deviceF15, commande.shift,F15TimePress)
+                    clicOn(deviceF15, commande.west,F15TimePress)
+                elseif (vv == "." or vv == "'") then 
+                    
+                else            
+                    local position = tonumber(vv)
+                    if position ~=nil then 
+                        position = position+1
+                        if (correspondances[position] ~= nil) then 
+                            clicOn(deviceF15,correspondances[position],F15TimePress)
+                        end
+                    end
+                end
+            end
+            if (iii == 1) then 
+                clicOn(deviceF15, commande.addToLat,F15TimePress)
+            elseif (iii == 2)  then 
+                clicOn(deviceF15, commande.addToLong,F15TimePress)
+            else 
+                clicOn(deviceF15, commande.addToAlt,F15TimePress)
+            end
+        end
+
+
+        for ii, vv in ipairs(v["wptName"]) do 
+            local position = tonumber(vv)
+            if position ~=nil then 
+                position = position+1
+                if (correspondances[position] ~= nil) then 
+                    clicOn(deviceF15,correspondances[position],F15TimePress)
+                end
+            end
+        end
+
+        clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
+        clicOn(deviceF15, commande.shift,F15TimePress)
+        clicOn(deviceF15, textCorrepondance["B"],F15TimePress)
+        clicOn(deviceF15, commande.changeWPT, F15TimePress)
+
+    end
+
+
+
+    
+    doLoadCoords = true
+    
+end
+
+
+
+
+
 function loadInA10()
 
     
@@ -462,6 +614,8 @@ end
 
 
 function loadScratchpad()
+
+    
 
     function cleanText()
         textarea:setText()
@@ -690,16 +844,20 @@ function loadScratchpad()
     end
 
     function coordsType()
-        local ac = DCS.getPlayerUnitType()
-        if ac == "FA-18C_hornet" then
+
+        local AirplaneType = DCS.getPlayerUnitType()
+
+        if AirplaneType == "FA-18C_hornet" then
             return "DDM", true
-        elseif ac == "A-10C_2" then
+        elseif AirplaneType == "A-10C_2" then
             return "DDM", true
-        elseif ac == "F-16C_50" or ac == "M-2000C" then
+        elseif AirplaneType == "F-16C_50" or AirplaneType == "M-2000C" then
             return "DDM", false
-        elseif ac == "AH-64D_BLK_II" then
+        elseif AirplaneType == "AH-64D_BLK_II" then
             return "DDM", true
-        else
+        elseif AirplaneType == "F-15ESE" then 
+            return "DDM", false
+        else 
             return nil, false
         end
     end
@@ -782,16 +940,19 @@ function loadScratchpad()
                 end
             end
         end
-        local planeType = DCS.getPlayerUnitType()
 
-        if planeType == "A-10C_2" then
+        local AirplaneType = DCS.getPlayerUnitType()
+
+        if AirplaneType == "A-10C_2" then
             loadInA10()
-        elseif planeType == "FA-18C_hornet" then
+        elseif AirplaneType == "FA-18C_hornet" then
             loadInF18()
-        elseif planeType == "M-2000C" then 
+        elseif AirplaneType == "M-2000C" then 
             loadInM2000()
-        elseif planeType == "F-16C_50" then 
+        elseif AirplaneType == "F-16C_50" then 
             loadInF16()
+        elseif AirplaneType == "F-15ESE" then 
+            loadInF15E()
         end
 
      end
@@ -799,7 +960,6 @@ function loadScratchpad()
 
 
 
-    
 
     function insertCoordinates()
         local pos = Export.LoGetCameraPosition().p
@@ -819,9 +979,25 @@ function loadScratchpad()
             result = result .. mgrs .. "\n"
         end
         result = result .. string.format("%.0f", alt) .. "m, ".. string.format("%.0f", alt*3.28084) .. "ft\n"
-        result = result .. "*|".. formatCoord("DDM", true, lat).. "|" .. formatCoord("DDM", false, lon) .."|" .. string.format("%.0f", alt*3.28084).. "\n\n"
 
+        local addOnF15 = ""
+
+        local AirplaneType = DCS.getPlayerUnitType()
+
+        if (AirplaneType == "F-15ESE") then 
+            f15Number = f15Number + 1
+            addOnF15 = tostring(f15Number)
+            -- saveConfiguration()
+        end
+
+        result = result .. "*" .. addOnF15 .. "|".. formatCoord("DDM", true, lat).. "|" .. formatCoord("DDM", false, lon) .."|" .. string.format("%.0f", alt*3.28084).. "\n\n"
+
+  
         addText(result)
+
+
+
+
 
         insertInPlane:setVisible(true)
         cleanButton:setVisible(true)
@@ -1009,6 +1185,7 @@ function loadScratchpad()
         cleanButton:addMouseDownCallback(
             function(self)
                 cleanText()
+                saveConfiguration()
             end
         )
 
