@@ -472,11 +472,15 @@ function loadInF15E()
 
 
         for ii, vv in ipairs(v["wptName"]) do 
-            local position = tonumber(vv)
-            if position ~=nil then 
-                position = position+1
-                if (correspondances[position] ~= nil) then 
-                    clicOn(deviceF15,correspondances[position],F15TimePress)
+            if (insertA10withWPT) then 
+                clicOn(deviceF15,correspondances[f15Number],F15TimePress)
+            else 
+                local position = tonumber(vv)
+                if position ~=nil then 
+                    position = position+1
+                    if (correspondances[position] ~= nil) then 
+                        clicOn(deviceF15,correspondances[position],F15TimePress)
+                    end
                 end
             end
         end
