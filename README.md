@@ -47,7 +47,29 @@ ATTENTION : s'il existe des WPT, ils seront écrasés
 NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord, il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
 
 
-## TODO
-- possibilité d'indiquer à partir de quel WPT insérer les suivants
+#### F15E
+
+Phase de TEST, le fonctionnement décrit ci-après peut fortement changer à court terme. 
+
+Pour le F15E, le programme fonctionne différemment du fait que la création de WPT dans cet appareil est particulier. En effet il est nécessaire de saisir manuellement le numro du WPT à créer (impossible de faire +1) et pour avoir un WPT d'attaque, il faut créer des targets points (numéro de WPT suivi d'un point). Hors en cas de présence d'un target point, il n'est plus possible d'éditer le WPT (sans numéro) initial, car il n'existe plus. 
+
+Ces différentes contraintes expliquent le fonctionnement suivant : 
+
+- faites un 'clear' du logiciel => obligatoire !
+- prennez vos WPT comme d'habitude
+- Placez vous sur le menu (cf image ci-après)
+- Cliquer sur insert
+
+Le programme va alors :
+ - insérer les WPT en partant de 1 et les modifier en target point
+ - utiliser le canal B afin de conserver toute route qui serait créées dans A (ATTENTION : B ne doit donc pas être utilisé)
+
+L'impossibilité d'éditer automatiquement un WPT une fois ce dernier passer en target point fait que le programme fera +1 pour chaque WPT, tant que DCS ne sera pas redémarré. 
+Pour le forcer à revenir à 1, il faut ajouter, juste avant le premier 'insert', le caratère # au niveau de la première ligne de ScratchpadPlus. 
+
+![image](https://github.com/docbrownd/ScratchpadPlus/assets/105074220/aa1a5550-6345-49af-bb9a-9c86730bfcad)
+
+
+
 
 
