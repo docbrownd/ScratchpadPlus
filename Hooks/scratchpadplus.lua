@@ -404,24 +404,27 @@ function loadInF15E()
     
 
     for i, v in ipairs(globalCoords) do
+        local wptPosition = v["wptPosition"]
+
         if (insertA10withWPT) then 
             f15Number = f15Number + 1
-            clicOn(deviceF15,correspondances[f15Number],F15TimePress)
-        else 
-            for ii, vv in ipairs(v["wptName"]) do 
-                if (vv == ".") then 
-                    clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
-                else 
-                    local position = tonumber(vv)
-                    if position ~=nil then 
-                        position = position+1
-                        if (correspondances[position] ~= nil) then 
-                            clicOn(deviceF15,correspondances[position],F15TimePress)
-                        end
+            wptPosition = tostring(f15Number)
+        end
+     
+        for ii, vv in ipairs(wptPosition) do 
+            if (vv == ".") then 
+                clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
+            else 
+                local position = tonumber(vv)
+                if position ~=nil then 
+                    position = position+1
+                    if (correspondances[position] ~= nil) then 
+                        clicOn(deviceF15,correspondances[position],F15TimePress)
                     end
                 end
             end
         end
+   
 
 
         clicOn(deviceF15, commande.shift,F15TimePress)
@@ -471,19 +474,35 @@ function loadInF15E()
         end
 
 
-        for ii, vv in ipairs(v["wptName"]) do 
-            if (insertA10withWPT) then 
-                clicOn(deviceF15,correspondances[f15Number],F15TimePress)
-            else 
-                local position = tonumber(vv)
-                if position ~=nil then 
-                    position = position+1
-                    if (correspondances[position] ~= nil) then 
-                        clicOn(deviceF15,correspondances[position],F15TimePress)
-                    end
+
+     
+        for ii, vv in ipairs(wptPosition) do 
+            
+            local position = tonumber(vv)
+            if position ~=nil then 
+                position = position+1
+                if (correspondances[position] ~= nil) then 
+                    clicOn(deviceF15,correspondances[position],F15TimePress)
                 end
             end
+          
         end
+
+
+
+        -- for ii, vv in ipairs(v["wptName"]) do 
+        --     if (insertA10withWPT) then 
+        --         clicOn(deviceF15,correspondances[f15Number],F15TimePress)
+        --     else 
+        --         local position = tonumber(vv)
+        --         if position ~=nil then 
+        --             position = position+1
+        --             if (correspondances[position] ~= nil) then 
+        --                 clicOn(deviceF15,correspondances[position],F15TimePress)
+        --             end
+        --         end
+        --     end
+        -- end
 
         clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
         clicOn(deviceF15, commande.shift,F15TimePress)
@@ -895,12 +914,13 @@ function loadScratchpad()
 
     end
 
-    function addValToGlobal(lat, long, alt, wptName)
+    function addValToGlobal(lat, long, alt, wptName, wptPosition)
         local coordLatLonAlt  = {}
         coordLatLonAlt['lat']  = {}
         coordLatLonAlt['long']  = {}
         coordLatLonAlt['alt']  = {}
         coordLatLonAlt['wptName']  = {}
+        coordLatLonAlt['wptPosition']  = {}
 
         for j = 0, #lat do 
             if tostring(lat:sub(j, j)) ~= " "  then
@@ -925,6 +945,14 @@ function loadScratchpad()
                 table.insert(coordLatLonAlt['wptName'], tostring(wptName:sub(j, j)))
             end
         end
+
+        for j = 0, #wptPosition do 
+            if tostring(alt:sub(j, j)) ~= " " then
+                table.insert(coordLatLonAlt['wptPosition'], tostring(wptPosition:sub(j, j)))
+            end
+        end
+
+
         table.insert(globalCoords, coordLatLonAlt )
 
     end
@@ -946,7 +974,7 @@ function loadScratchpad()
                 if string.sub(lineText[i], 1,1) == "*" then 
                     local lineDatas = lineText[i]:gsub("*","")
                     local splitCoords = split(lineDatas,"|")
-                    addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1])
+                    addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5])
                 end
                 if  string.sub(lineText[i], 1,1) == "#" then
                     insertA10withWPT = true
@@ -997,13 +1025,13 @@ function loadScratchpad()
 
         local AirplaneType = DCS.getPlayerUnitType()
 
-        if (AirplaneType == "F-15ESE") then 
-            f15Number = f15Number + 1
-            addOnF15 = tostring(f15Number)
-            -- saveConfiguration()
-        end
+        -- if (AirplaneType == "F-15ESE") then 
+        f15Number = f15Number + 1
+        addOnF15 = tostring(f15Number)
+        -- saveConfiguration()
+        -- end
 
-        result = result .. "*" .. addOnF15 .. "|".. formatCoord("DDM", true, lat).. "|" .. formatCoord("DDM", false, lon) .."|" .. string.format("%.0f", alt*3.28084).. "\n\n"
+        result = result .. "*|".. formatCoord("DDM", true, lat).. "|" .. formatCoord("DDM", false, lon) .."|" .. string.format("%.0f", alt*3.28084).. "|" .. addOnF15 .. "\n\n"
 
   
         addText(result)
