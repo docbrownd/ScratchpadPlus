@@ -61,8 +61,9 @@ Ces différentes contraintes expliquent le fonctionnement suivant :
 - Cliquer sur insert
 
 Le programme va alors :
- - insérer les WPT en partant de 1 et les modifier en target point
+ - insérer les WPT en partant de 1 ~~et les modifier en target point~~ (plus valable à partir de la 1.3)
  - utiliser le canal B afin de conserver toute route qui serait créées dans A (ATTENTION : B ne doit donc pas être utilisé)
+ - A partir de la version 1.3 : si un point est ajouté manuellement entre * et | alors le WPT sera transformé en Target Point. (ex *.|N 41°55.590'|E 044°10.440'|3140|1 => le WPT 1B sera converti en 1.B)
 
 L'impossibilité d'éditer automatiquement un WPT une fois ce dernier passer en target point fait que le programme fera +1 pour chaque WPT, tant que DCS ne sera pas redémarré. 
 Pour le forcer à revenir à 1, il faut ajouter, juste avant le premier 'insert', le caratère # au niveau de la première ligne de ScratchpadPlus. 
