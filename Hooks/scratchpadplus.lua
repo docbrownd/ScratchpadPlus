@@ -473,42 +473,28 @@ function loadInF15E()
             end
         end
 
-
-
-     
-        for ii, vv in ipairs(wptPosition) do 
-            
-            local position = tonumber(vv)
-            if position ~=nil then 
-                position = position+1
-                if (correspondances[position] ~= nil) then 
-                    clicOn(deviceF15,correspondances[position],F15TimePress)
+    
+   
+        if v["wptName"] ~= nil and v["wptName"][2] == "." then
+            log(tostring(v["wptName"][2]))
+          
+            for ii, vv in ipairs(wptPosition) do 
+                local position = tonumber(vv)
+                if position ~=nil then 
+                    position = position+1
+                    if (correspondances[position] ~= nil) then 
+                        clicOn(deviceF15,correspondances[position],F15TimePress)
+                    end
                 end
             end
-          
+
+            clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
+            clicOn(deviceF15, commande.shift,F15TimePress)
+            clicOn(deviceF15, textCorrepondance["B"],F15TimePress)
+            clicOn(deviceF15, commande.changeWPT, F15TimePress)
+        
         end
-
-
-
-        -- for ii, vv in ipairs(v["wptName"]) do 
-        --     if (insertA10withWPT) then 
-        --         clicOn(deviceF15,correspondances[f15Number],F15TimePress)
-        --     else 
-        --         local position = tonumber(vv)
-        --         if position ~=nil then 
-        --             position = position+1
-        --             if (correspondances[position] ~= nil) then 
-        --                 clicOn(deviceF15,correspondances[position],F15TimePress)
-        --             end
-        --         end
-        --     end
-        -- end
-
-        clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
-        clicOn(deviceF15, commande.shift,F15TimePress)
-        clicOn(deviceF15, textCorrepondance["B"],F15TimePress)
-        clicOn(deviceF15, commande.changeWPT, F15TimePress)
-
+        
     end
 
 
