@@ -66,7 +66,7 @@ local tmpFrame = 40
 local doDepress = false
 
 local insertA10withWPT = false
-
+local makeAllTargetPont = false
 
 
 
@@ -475,9 +475,7 @@ function loadInF15E()
 
     
    
-        if v["wptName"] ~= nil and v["wptName"][2] == "." then
-            log(tostring(v["wptName"][2]))
-          
+        if (makeAllTargetPont or (v["wptName"] ~= nil and v["wptName"][2] == ".")) then
             for ii, vv in ipairs(wptPosition) do 
                 local position = tonumber(vv)
                 if position ~=nil then 
@@ -955,6 +953,13 @@ function loadScratchpad()
 
         local lineText = split(text,"\n")
         insertA10withWPT = false
+        makeAllTargetPont = false
+        if  (string.sub(text, 1,1) == "#") then
+            insertA10withWPT = true
+        elseif ( string.sub(text, 1,1) == "." ) then
+            makeAllTargetPont = true
+        end
+        
         for i = 1, #lineText do
             if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil)  then
                 if string.sub(lineText[i], 1,1) == "*" then 
@@ -962,9 +967,7 @@ function loadScratchpad()
                     local splitCoords = split(lineDatas,"|")
                     addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5])
                 end
-                if  string.sub(lineText[i], 1,1) == "#" then
-                    insertA10withWPT = true
-                end
+   
             end
         end
 
