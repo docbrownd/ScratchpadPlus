@@ -308,9 +308,9 @@ function loadInF18()
                 elseif  vv == "S" then 
                     clicOn(25,"3026",0)
                 elseif vv == "E" then 
-                    clicOn(25,"3024",10)
+                    clicOn(25,"3024",30)
                 elseif vv == "W" then 
-                    clicOn(25,"3022",10)
+                    clicOn(25,"3022",30)
                 elseif (vv == "." or vv == "'") then 
                     clicOn(25,"3029",60)
                 else            
@@ -318,7 +318,7 @@ function loadInF18()
                     if position ~=nil then 
                         position = position+1
                         if (correspondance[position] ~= nil) then 
-                            clicOn(25,correspondance[position],0)
+                            clicOn(25,correspondance[position],5)
                         end
                     end
                 end
@@ -1057,13 +1057,13 @@ function loadScratchpad()
         end
 
         config.windowSize = {w = w, h = h}
-        saveConfiguration()
+        if (config.vr ~= true) then saveConfiguration() end
     end
 
     function handleMove(self)
         local x, y = self:getPosition()
         config.windowPosition = {x = x, y = y}
-        saveConfiguration()
+        if (config.vr ~= true) then saveConfiguration() end
     end
 
     function updateCoordsMode()
@@ -1215,7 +1215,8 @@ function loadScratchpad()
         cleanButton:addMouseDownCallback(
             function(self)
                 cleanText()
-                saveConfiguration()
+                if (config.vr ~= true) then saveConfiguration() end
+                -- saveConfiguration()
             end
         )
 
