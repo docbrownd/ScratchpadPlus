@@ -68,7 +68,7 @@ local doDepress = false
 local insertA10withWPT = false
 local makeAllTargetPont = false
 
-
+-- local speedModificator = 1
 
 function log(str) -- write in file (Logs\ScratchpadPlus.log by default)
     if not str then
@@ -92,9 +92,10 @@ end
 
 
 function clicOn(device, code, delay, position )
+    if (config.speedModificator == nil) then config.speedModificator = 1 end
     delay = delay or 0
     position = position or 1
-    local datas ={device, code, delay, position}
+    local datas ={device, code, delay * config.speedModificator, position}
     table.insert(DatasPlane,datas)
 end
 
@@ -728,7 +729,10 @@ function loadScratchpad()
         if (tbl and tbl.config) then
             log("Configuration exists...")
             config = tbl.config
-
+            if config.speedModificator == nil then 
+                config.speedModificator = 1
+                saveConfiguration()
+            end
             -- config migration
 
             -- add default fontSize config
@@ -959,15 +963,29 @@ function loadScratchpad()
         elseif ( string.sub(text, 1,1) == "." ) then
             makeAllTargetPont = true
         end
+
         
         for i = 1, #lineText do
-            if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil)  then
+            if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil and string.sub(lineText[i], 1,1) ~= "#")  then
                 if string.sub(lineText[i], 1,1) == "*" then 
                     local lineDatas = lineText[i]:gsub("*","")
                     local splitCoords = split(lineDatas,"|")
                     addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5])
                 end
-   
+            else
+                if (string.sub(lineText[i], 1,1) == "#") then 
+                    if  (string.sub(lineText[i], 2,1) == "#") then
+                        insertA10withWPT = true
+                    elseif ( string.sub(lineText[i], 2,1) == "." ) then
+                        makeAllTargetPont = true
+                    elseif  ( string.sub(lineText[i], 2,1) == "*" ) then 
+                        local newConfigSpeed = string.sub(lineText[i], 3)
+                        if (newConfigSpeed ~= config.speedModificator and newConfigSpeed~= "") then 
+                            config.speedModificator = newConfigSpeed
+                            saveConfiguration()
+                        end
+                    end
+                end
             end
         end
 

@@ -17,7 +17,7 @@ dialog = {
         ["offscreen"] = false,
         ["resizable"] = true,
         ["zOrder"] = 112,
-        ["text"] = "Scratchpad"
+        ["text"] = "ScratchpadPlus"
     },
     ["skin"] = {
         ["params"] = {
