@@ -643,7 +643,7 @@ function loadScratchpad()
     end
 
     function loadPage(page)
-        log("loading page " .. page.path)
+        -- log("loading page " .. page.path)
         file, err = io.open(page.path, "r")
         if err then
             log("Error reading file: " .. page.path)
@@ -663,7 +663,7 @@ function loadScratchpad()
             return
         end
 
-        log("saving page " .. path)
+        -- log("saving page " .. path)
         lfs.mkdir(lfs.writedir() .. [[ScratchpadPlus\]])
         local mode = "a"
         if override then
@@ -725,6 +725,47 @@ function loadScratchpad()
         currentPage = pages[pagesCount].path
     end
 
+
+    function loadAllPages()
+        -- scan scratchpad dir for pages
+        pages = {}
+        for name in lfs.dir(dirPath) do
+            local path = dirPath .. name
+            -- log(path)
+            if lfs.attributes(path, "mode") == "file" then
+                if name:sub(-4) ~= ".txt" then
+                    -- log("Ignoring file " .. name .. ", because of it doesn't seem to be a text file (.txt)")
+                elseif lfs.attributes(path, "size") > 1024 * 1024 then
+                    -- log("Ignoring file " .. name .. ", because of its file size of more than 1MB")
+                else
+                    -- log("found page " .. path)
+                    table.insert(
+                        pages,
+                        {
+                            name = name:sub(1, -5),
+                            path = path
+                        }
+                    )
+                    pagesCount = pagesCount + 1
+                end
+            end
+        end
+
+        -- there are no pages yet, create one
+        if pagesCount == 0 then
+            path = dirPath .. [[0000.txt]]
+            -- log("creating page " .. path)
+            table.insert(
+                pages,
+                {
+                    name = "0000",
+                    path = path
+                }
+            )
+            pagesCount = pagesCount + 1
+        end
+    end
+
     function loadConfiguration()
         log("Loading config file...")
         local tbl = Tools.safeDoFile(lfs.writedir() .. "Config/ScratchpadPlusConfig.lua", false)
@@ -759,43 +800,8 @@ function loadScratchpad()
             }
             saveConfiguration()
         end
+        loadAllPages()
 
-        -- scan scratchpad dir for pages
-        for name in lfs.dir(dirPath) do
-            local path = dirPath .. name
-            log(path)
-            if lfs.attributes(path, "mode") == "file" then
-                if name:sub(-4) ~= ".txt" then
-                    log("Ignoring file " .. name .. ", because of it doesn't seem to be a text file (.txt)")
-                elseif lfs.attributes(path, "size") > 1024 * 1024 then
-                    log("Ignoring file " .. name .. ", because of its file size of more than 1MB")
-                else
-                    log("found page " .. path)
-                    table.insert(
-                        pages,
-                        {
-                            name = name:sub(1, -5),
-                            path = path
-                        }
-                    )
-                    pagesCount = pagesCount + 1
-                end
-            end
-        end
-
-        -- there are no pages yet, create one
-        if pagesCount == 0 then
-            path = dirPath .. [[0000.txt]]
-            log("creating page " .. path)
-            table.insert(
-                pages,
-                {
-                    name = "0000",
-                    path = path
-                }
-            )
-            pagesCount = pagesCount + 1
-        end
     end
 
     function saveConfiguration()
@@ -1121,6 +1127,7 @@ function loadScratchpad()
         window:setSkin(windowDefaultSkin)
         panel:setVisible(true)
         window:setHasCursor(true)
+        loadAllPages()
 
         -- show prev/next buttons only if we have more than one page
         if pagesCount > 1 then
