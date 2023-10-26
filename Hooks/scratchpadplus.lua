@@ -33,6 +33,7 @@ local prevButton = nil
 local nextButton = nil
 local insertInPlane = nil
 local cleanButton = nil
+local exportButton = nil
 
 -- State
 local isHidden = true
@@ -396,22 +397,22 @@ function loadInF15E()
 
     DatasPlane = {}
 
-    if (insertA10withWPT) then 
-        f15Number = 0
-    end
+    -- if (insertA10withWPT) then 
+    --     f15Number = 0
+    -- end
 
     clicOn(deviceF15, commande.accessSTR, F15TimePress)
 
     
-
+ 
     for i, v in ipairs(globalCoords) do
         local wptPosition = v["wptPosition"]
+        -- if (insertA10withWPT) then 
+        --     f15Number = f15Number + 1
+        --     wptPosition = tostring(f15Number)
+        -- end
+   
 
-        if (insertA10withWPT) then 
-            f15Number = f15Number + 1
-            wptPosition = tostring(f15Number)
-        end
-     
         for ii, vv in ipairs(wptPosition) do 
             if (vv == ".") then 
                 clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
@@ -473,9 +474,10 @@ function loadInF15E()
                 clicOn(deviceF15, commande.addToAlt,F15TimePress)
             end
         end
-
+        log("makeAllTargetPont f15")
+        log(tostring(makeAllTargetPont))
     
-   
+        
         if (makeAllTargetPont or (v["wptName"] ~= nil and v["wptName"][2] == ".")) then
             for ii, vv in ipairs(wptPosition) do 
                 local position = tonumber(vv)
@@ -935,7 +937,9 @@ function loadScratchpad()
         end
 
         for j = 0, #wptPosition do 
-            if tostring(alt:sub(j, j)) ~= " " then
+            if tostring(alt:sub(j, j)) ~= " " and tostring(alt:sub(j, j)) ~= "" then
+                log("wptPosition")
+                log(tostring(wptPosition:sub(j, j)))
                 table.insert(coordLatLonAlt['wptPosition'], tostring(wptPosition:sub(j, j)))
             end
         end
@@ -958,36 +962,45 @@ function loadScratchpad()
         local lineText = split(text,"\n")
         insertA10withWPT = false
         makeAllTargetPont = false
-        if  (string.sub(text, 1,1) == "#") then
-            insertA10withWPT = true
-        elseif ( string.sub(text, 1,1) == "." ) then
-            makeAllTargetPont = true
-        end
+        -- if  (string.sub(text, 1,1) == "#") then
+        --     insertA10withWPT = true
+        -- elseif ( string.sub(text, 1,1) == "." ) then
+        --     makeAllTargetPont = true
+        -- end
 
         
         for i = 1, #lineText do
+            log("lineText : ")
+            log(lineText[i])
             if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil and string.sub(lineText[i], 1,1) ~= "#")  then
                 if string.sub(lineText[i], 1,1) == "*" then 
-                    local lineDatas = lineText[i]:gsub("*","")
+                    local lineDatas = lineText[i]:gsub("*","")                
                     local splitCoords = split(lineDatas,"|")
                     addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5])
                 end
             else
                 if (string.sub(lineText[i], 1,1) == "#") then 
-                    if  (string.sub(lineText[i], 2,1) == "#") then
+                    log("2,1 => ")
+                    log(string.sub(lineText[i], 2,2))
+                    if  (string.sub(lineText[i], 2,2) == "#") then
                         insertA10withWPT = true
-                    elseif ( string.sub(lineText[i], 2,1) == "." ) then
+                    elseif ( string.sub(lineText[i], 2,2) == "." ) then
                         makeAllTargetPont = true
-                    elseif  ( string.sub(lineText[i], 2,1) == "*" ) then 
+                    elseif  ( string.sub(lineText[i], 2,2) == "*" ) then 
                         local newConfigSpeed = string.sub(lineText[i], 3)
                         if (newConfigSpeed ~= config.speedModificator and newConfigSpeed~= "") then 
                             config.speedModificator = newConfigSpeed
+                            log("newConfigSpeed")
+                            log(newConfigSpeed)
                             saveConfiguration()
                         end
                     end
                 end
             end
         end
+ 
+
+
 
         local AirplaneType = DCS.getPlayerUnitType()
 
@@ -1006,7 +1019,11 @@ function loadScratchpad()
      end
 
 
+     function exportText()
 
+
+
+     end
 
 
     function insertCoordinates()
@@ -1067,6 +1084,7 @@ function loadScratchpad()
 
         cleanButton:setBounds(200,h-40,50,20)
         insertInPlane:setBounds(270,h-40,60,20)
+        exportButton:setBounds(340, h-40,60,20)
         
         if pagesCount > 1 then
             insertCoordsBtn:setBounds(145, h - 40, 50, 20)
@@ -1119,6 +1137,7 @@ function loadScratchpad()
         if textarea:getText() ~= nil and textarea:getText() ~= "" then 
             cleanButton:setVisible(true)
             insertInPlane:setVisible(true)
+            exportButton:setVisible(true)
         end
     end
 
@@ -1174,7 +1193,7 @@ function loadScratchpad()
         nextButton = panel.ScratchpadNextButton
         insertInPlane = panel.ScratchpadInsertButton
         cleanButton = panel.ScratchpadCleanButton
-
+        exportButton = panel.ScratchpadExportButton
 
 
         -- setup textarea
@@ -1235,6 +1254,11 @@ function loadScratchpad()
                 cleanText()
                 if (config.vr ~= true) then saveConfiguration() end
                 -- saveConfiguration()
+            end
+        )
+        exportButton:addMouseDownCallback(
+            function(self)
+                  savePage(dirPath .. [[coordonnees.txt]], textarea:getText(), true)
             end
         )
 

@@ -4,7 +4,7 @@ dialog = {
         ["bounds"] = {
             [1] = {
                 ["h"] = 200,
-                ["w"] = 350,
+                ["w"] = 500,
                 ["x"] = 0,
                 ["y"] = 0
             }
@@ -17,7 +17,7 @@ dialog = {
         ["offscreen"] = false,
         ["resizable"] = true,
         ["zOrder"] = 112,
-        ["text"] = "ScratchpadPlus"
+        ["text"] = "Scratchpad"
     },
     ["skin"] = {
         ["params"] = {
@@ -160,6 +160,29 @@ dialog = {
                     },
                     ["type"] = "Button"
                 },
+                  ["ScratchpadExportButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 120,
+                            ["x"] = 105,
+                            ["y"] = 380
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Export",
+                        ["tooltip"] = "Export les coordonnées",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+
                 ["ScratchpadInsertButton"] = {
                     ["params"] = {
                         ["bounds"] = {

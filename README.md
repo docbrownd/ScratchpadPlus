@@ -10,10 +10,11 @@ L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 
 ## Config possible : 
 
-Sur la plupart des appareils, l'insertion se fait en apuuyant puis en relâchant une touche, or il faut un certains entre ces deux actions pour qu'elles fonctionnent correctement. Il n'est pas possible sur DCS d'attendre un temps déterminé, le seul moyen est d'utiliser un compteur qui s'incrémente à chaque image. Le compteur est donc dépendant du nombre de fps de l'utilisateur. Or il peut aller trop vite ou pas assez vite, il est donc possible depuis la 1.5 de modifiant la vitesse d'appuie : 
-- insérer en haut de la fenêtre la commande suivante : #\*1.5 => multiplie par 1.5 la vitesse d'appuie. Pour ralentir, taper #\*0.5 => diminue la vitesse d'un facteur 2. 
+Sur la plupart des appareils, l'insertion se fait en apuuyant puis en relâchant une touche, or il faut un certains entre ces deux actions pour qu'elles fonctionnent correctement. Il n'est pas possible sur DCS d'attendre un temps déterminé, le seul moyen est d'utiliser un compteur qui s'incrémente à chaque image. Le compteur est donc dépendant du nombre de fps de l'utilisateur. Or il peut aller trop vite ou pas assez vite, il est donc possible depuis la 1.6 de modifier la vitesse d'appuie : 
+- insérer en haut de la fenêtre la commande suivante : #\*2 => multiplie par 2 la durée d'appuie sur une touche. 
 - la nouvelle configuration est sauvegardée il n'est donc pas nécessaire de la retaper à chaque fois
-=> les caractères #* sont obligatoires, ensuite à vous de trouver les valeurs qui vont avec votre système. Pour information, le programme a été codé avec 150fps. Si vous avez beaucoup moins (50 par exemple), essayé en augmentant de 2x (#*2) 
+=> les caractères #* sont obligatoires, ensuite à vous de trouver les valeurs qui vont avec votre système. Pour information, le programme a été codé avec 150fps. 
+Moins vous avez de fps et plus le réglage de base est lent, il faut donc accélérer l'insertion des coordonnées, par exemple de 2x => #*0.5
 
 Pour les utilisateurs en VR : il est possible de forcer la fenetre à s'ouvrir toujours au même endroit : 
 - Ouvrée la fenêtre en VR et positionnée là où vous voulez.
