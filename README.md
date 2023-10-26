@@ -21,7 +21,7 @@ Pour les utilisateurs en VR : il est possible de forcer la fenetre à s'ouvrir t
 - Fermer la fenêtre 
 - Au niveau du fichier de configuration (dossier DCS dans partie enregistrées puis dossier Config => fichier ScratchpadPlusConfig.lua), ajouter "["vr"] = true," (sans les ") dans la partie config
 
-##Export des WPT 
+## Export des WPT 
 
 Depuis la 1.6, un bouton Export est présent en base de la fenêtre : il permet d'exporter le contenu de la fenêtre vers un fichier "coordonnees.txt" se trouvant dans le dossier ScratchpadPlus de DCS (dans Partie enregistrées). Il est alors possible de donner ce fichier à d'autres personnes ayant ScratchpadPlus. Pour l'intégrer automatiquement dans l'interface, il suffit de copier le ficheir dans le même dossier et d'utiliser les boutons "précédents/suivants".
 
