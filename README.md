@@ -8,7 +8,7 @@ L'installation et l'utilisation se fait de la même manière que pour Scratchpad
 ## Lancement
 L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 
-## Config possible : 
+## Config possible
 
 Sur la plupart des appareils, l'insertion se fait en apuuyant puis en relâchant une touche, or il faut un certains entre ces deux actions pour qu'elles fonctionnent correctement. Il n'est pas possible sur DCS d'attendre un temps déterminé, le seul moyen est d'utiliser un compteur qui s'incrémente à chaque image. Le compteur est donc dépendant du nombre de fps de l'utilisateur. Or il peut aller trop vite ou pas assez vite, il est donc possible depuis la 1.6 de modifier la vitesse d'appuie : 
 - insérer en haut de la fenêtre la commande suivante : #\*2 => multiplie par 2 la durée d'appuie sur une touche. 
@@ -20,6 +20,10 @@ Pour les utilisateurs en VR : il est possible de forcer la fenetre à s'ouvrir t
 - Ouvrée la fenêtre en VR et positionnée là où vous voulez.
 - Fermer la fenêtre 
 - Au niveau du fichier de configuration (dossier DCS dans partie enregistrées puis dossier Config => fichier ScratchpadPlusConfig.lua), ajouter "["vr"] = true," (sans les ") dans la partie config
+
+##Export des WPT 
+
+Depuis la 1.6, un bouton Export est présent en base de la fenêtre : il permet d'exporter le contenu de la fenêtre vers un fichier "coordonnees.txt" se trouvant dans le dossier ScratchpadPlus de DCS (dans Partie enregistrées). Il est alors possible de donner ce fichier à d'autres personnes ayant ScratchpadPlus. Pour l'intégrer automatiquement dans l'interface, il suffit de le renommer en 0000.txt (et de remplacer le fichier existant)
 
 ## Création de WPT
 
