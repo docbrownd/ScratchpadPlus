@@ -182,6 +182,28 @@ dialog = {
                     },
                     ["type"] = "Button"
                 },
+                ["ScratchpadTargetButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 120,
+                            ["x"] = 105,
+                            ["y"] = 380
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Target",
+                        ["tooltip"] = "Insérer des Target Point",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
 
                 ["ScratchpadInsertButton"] = {
                     ["params"] = {

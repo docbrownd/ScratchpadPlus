@@ -34,6 +34,7 @@ local nextButton = nil
 local insertInPlane = nil
 local cleanButton = nil
 local exportButton = nil
+local targetButton = nil
 
 -- State
 local isHidden = true
@@ -68,6 +69,7 @@ local doDepress = false
 
 local insertA10withWPT = false
 local makeAllTargetPont = false
+local forceTargetPoint = false
 
 -- local speedModificator = 1
 
@@ -795,7 +797,7 @@ function loadScratchpad()
             config = {
                 hotkey = "Ctrl+Shift+w",
                 windowPosition = {x = 200, y = 200},
-                windowSize = {w = 350, h = 150},
+                windowSize = {w = 40, h = 200},
                 fontSize = 14
             }
             saveConfiguration()
@@ -973,7 +975,7 @@ function loadScratchpad()
         -- elseif ( string.sub(text, 1,1) == "." ) then
         --     makeAllTargetPont = true
         -- end
-
+        if forceTargetPoint then makeAllTargetPont = true end
         
         for i = 1, #lineText do
             log("lineText : ")
@@ -1025,12 +1027,6 @@ function loadScratchpad()
      end
 
 
-     function exportText()
-
-
-
-     end
-
 
     function insertCoordinates()
         local pos = Export.LoGetCameraPosition().p
@@ -1069,7 +1065,11 @@ function loadScratchpad()
 
 
 
-
+        local AirplaneType = DCS.getPlayerUnitType()
+        if AirplaneType == "F-15ESE" then 
+            targetButton:setVisible(true)
+        end
+        exportButton:setVisible(true)
         insertInPlane:setVisible(true)
         cleanButton:setVisible(true)
 
@@ -1091,6 +1091,16 @@ function loadScratchpad()
         cleanButton:setBounds(200,h-40,50,20)
         insertInPlane:setBounds(270,h-40,60,20)
         exportButton:setBounds(340, h-40,60,20)
+
+
+        local AirplaneType = DCS.getPlayerUnitType()
+
+      
+        if AirplaneType == "F-15ESE" then 
+            targetButton:setBounds(410, h-40,60,20)
+        end
+        
+
         
         if pagesCount > 1 then
             insertCoordsBtn:setBounds(145, h - 40, 50, 20)
@@ -1145,6 +1155,11 @@ function loadScratchpad()
             cleanButton:setVisible(true)
             insertInPlane:setVisible(true)
             exportButton:setVisible(true)
+            local AirplaneType = DCS.getPlayerUnitType()
+            if AirplaneType == "F-15ESE" then 
+                targetButton:setVisible(true)
+            end
+
         end
     end
 
@@ -1201,7 +1216,7 @@ function loadScratchpad()
         insertInPlane = panel.ScratchpadInsertButton
         cleanButton = panel.ScratchpadCleanButton
         exportButton = panel.ScratchpadExportButton
-
+        targetButton = panel.ScratchpadTargetButton
 
         -- setup textarea
         local skin = textarea:getSkin()
@@ -1268,6 +1283,16 @@ function loadScratchpad()
                   savePage(dirPath .. [[coordonnees.txt]], textarea:getText(), true)
             end
         )
+
+       
+        targetButton:addMouseDownCallback(
+            function(self)
+                forceTargetPoint = true
+                insertCoordinatesinPlane()
+                forceTargetPoint = false
+            end
+        )
+  
 
         -- setup window
         window:setBounds(

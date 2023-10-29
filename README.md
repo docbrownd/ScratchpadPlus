@@ -82,6 +82,7 @@ Le programme va alors :
  - utiliser le canal B afin de conserver toute route qui serait créées dans A (ATTENTION : B ne doit donc pas être utilisé)
  - A partir de la version 1.3 : si un point est ajouté manuellement entre * et | alors le WPT sera transformé en Target Point. (ex *.|N 41°55.590'|E 044°10.440'|3140|1 => le WPT 1B sera converti en 1.B)
  - A partir de la version 1.5 : si les caractères #. sont ajoutés en haut de la fenêtre, alors l'ensemble des waypoints seront convertis en target point
+ - A partir de la 1.7, un bouton "target" est disponible : il insert les WPT dans le F15 et les convertis en TargetPoint. 
 
 Le programme fera +1 pour chaque WPT, tant que DCS ne sera pas redémarré. 
 Pour le forcer à revenir à 1, il faut ajouter, juste avant le premier 'insert', les caratères ## au niveau de la première ligne de ScratchpadPlus. 
