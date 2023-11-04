@@ -58,6 +58,7 @@ ATTENTION : s'il existe des WPT, ils seront écrasés
 
 #### F16 : 
 
+- changement suite aux MAJ DCS : à patir de la ScratchpadPlus 1.7 => se placer sur le WPT 21
 - -cliquer simplement sur "insert"
 
 ##
