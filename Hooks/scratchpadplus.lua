@@ -227,7 +227,7 @@ function loadInF16()
     for i, v in ipairs(globalCoords) do
         clicOn(17,"3030",10)
         clicOn(17,"3035",20,-1)
-        clicOn(17,"3035",20,-1)
+      --clicOn(17,"3035",20,-1) => for WPT >= 21
 
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
@@ -1068,6 +1068,8 @@ function loadScratchpad()
         local AirplaneType = DCS.getPlayerUnitType()
         if AirplaneType == "F-15ESE" then 
             targetButton:setVisible(true)
+        else 
+            targetButton:setVisible(false)
         end
         exportButton:setVisible(true)
         insertInPlane:setVisible(true)
@@ -1158,6 +1160,8 @@ function loadScratchpad()
             local AirplaneType = DCS.getPlayerUnitType()
             if AirplaneType == "F-15ESE" then 
                 targetButton:setVisible(true)
+            else 
+                targetButton:setVisible(false)
             end
 
         end
