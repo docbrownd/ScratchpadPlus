@@ -53,13 +53,13 @@ ATTENTION : s'il existe des WPT, ils seront écrasés
 
 #### M2000 :
 
--cliquer simplement sur "insert"
+- cliquer simplement sur "insert"
 	
 
 #### F16 : 
 
 - cliquer simplement sur "insert"
-- Attention : il n'est possible d'insérer que 20 WPT. après la manière d'ajouter un WPT change sur le F16 car il s'agit d'autres types de WPT (ex en 25 c'est le BE). Il faudra dont revenir manuellement au WPT 1. 
+- Attention : il n'est possible d'insérer que 20 WPT. Après la manière d'ajouter un WPT change sur le F16 car il s'agit d'autres types de WPT (ex en 25 c'est le BE). Il faudra dont revenir manuellement au WPT 1. 
 
 ##
 NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord, il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
