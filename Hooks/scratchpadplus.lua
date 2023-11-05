@@ -227,7 +227,7 @@ function loadInF16()
     for i, v in ipairs(globalCoords) do
         clicOn(17,"3030",10)
         clicOn(17,"3035",20,-1)
-      --clicOn(17,"3035",20,-1) => for WPT >= 21
+        clicOn(17,"3035",20,-1) 
 
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
