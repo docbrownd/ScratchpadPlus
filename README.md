@@ -87,7 +87,7 @@ Le programme va alors :
 
  ### F15E et JDAM
 
-A partir de la version 1.9, il est possible, sous certaines conditions, d'assigner automatiquement un waypont à une bombe. Pour cela il faut avoir les bons paramètres (attention, cela va forcément changer suite aux maj à venir des JDAM): 
+A partir de la version 1.9, il est possible, sous certaines conditions, d'assigner automatiquement un waypoint à une bombe. Pour cela il faut avoir les bons paramètres (attention, cela va forcément changer suite aux maj à venir des JDAM): 
  - les coordonnées sont rentrées au format target point et dans la route B
  - l'UFC est sur la première page de Menu (avec LAW en PB1)
  - le programme de larguage est configuré pour 9 (si GBU38) ou 7 bombes (si GBU31)
