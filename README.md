@@ -90,9 +90,10 @@ Le programme va alors :
 A partir de la version 1.9, il est possible, sous certaines conditions, d'assigner automatiquement un waypont à une bombe. Pour cela il faut avoir les bons paramètres (attention, cela va forcément changer suite aux maj à venir des JDAM): 
  - les coordonnées sont rentrées au format target point et dans la route B
  - l'UFC est sur la première page de Menu (avec LAW en PB1)
- - la programme de larguage est configuré pour 9 (si GBU38) ou 7 bombes (si GBU31)
+ - le programme de larguage est configuré pour 9 (si GBU38) ou 7 bombes (si GBU31)
  - l'avion est en mode A/G 
  - le MFD de droite est sur la page SMART WPT et la première bombe (L1) est sélectionnée
+   
 Rentrer ensuite la commande suivante au niveau de la première ligne de ScratchpadPlus :
 
 <code>#j|1|31</code>
