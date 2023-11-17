@@ -87,22 +87,26 @@ Le programme va alors :
 
  ### F15E et JDAM
 
-A partir de la version 1.8, il est possible, sous certaines conditions, d'assigner automatiquement un waypont à une bombe. Pour cela il faut avoir les bons paramètres (attention, cela va forcément changer suite aux maj à venir des JDAM): 
-	- les coordonnées sont rentrées au format target point et dans la route B
-	- l'UFC est sur la première page de Menu (avec LAW en PB1)
-	- la programme de larguage est configuré pour 9 (si GBU38) ou 7 bombes (si GBU31)
-	- l'avion est en mode A/G 
-	- le MFD de droite est sur la page SMART WPT et la première bombe (L1) est sélectionnée
-Rentrer ensuite la commande suivante au niveau de la première ligne de ScratchpadPlus : 
+A partir de la version 1.9, il est possible, sous certaines conditions, d'assigner automatiquement un waypont à une bombe. Pour cela il faut avoir les bons paramètres (attention, cela va forcément changer suite aux maj à venir des JDAM): 
+ - les coordonnées sont rentrées au format target point et dans la route B
+ - l'UFC est sur la première page de Menu (avec LAW en PB1)
+ - la programme de larguage est configuré pour 9 (si GBU38) ou 7 bombes (si GBU31)
+ - l'avion est en mode A/G 
+ - le MFD de droite est sur la page SMART WPT et la première bombe (L1) est sélectionnée
+Rentrer ensuite la commande suivante au niveau de la première ligne de ScratchpadPlus :
+
 <code>#j|1|31</code>
-   -> #j est obligatoire 
-   -> 1 correspond au n° de WPT à partir duquel les bombes vont être configurés
-   -> 31 est le type de bombe. Soit 31, soit 38 (pour les 54, rentrez 38)
+
+Avec : 
+ - #j est obligatoire 
+ - 1 correspond au n° de WPT à partir duquel les bombes vont être configurés
+ - 31 est le type de bombe. Soit 31, soit 38 (pour les 54, rentrez 38)
 
 En fonction de votre config il est possible que le transfère aille trop vite ou trop lentement, ce qui empêche le programme de fonctionner coorectement. Il est alors possible d'augmenter ou de diminuer le temps lors du transfert des coordonnées en ajoutant à la commande un dernier paramètre : 
+
 <code>#j|1|31|300</code> 
 
-=> il y aura une pause de 300 frames entre 2 transfères (confgi par défaut)
+=> il y aura une pause de 300 frames entre 2 transfères (config par défaut)
 
 
 Le programme fera +1 pour chaque WPT, tant que DCS ne sera pas redémarré. 
