@@ -348,6 +348,132 @@ function loadInF18()
 end
 
 
+function getClicNumberSmallJDAM(jdamNumber)
+    local seq =  {
+        0,4,7,7,4,3,4,3,7
+    }
+    return seq[jdamNumber]
+end
+
+
+function getClicNumberLargeJDAM(jdamNumber)
+    local seq =  {
+        0,3,5,5,3,2,5
+    }
+    return seq[jdamNumber]
+end
+
+
+
+
+
+    --[[
+        Assume that : 
+            - mfd is on swmart wpt, first station selected 
+            - prog release is on 
+            - for now, only for full bomb (9 or 7)
+            - after : for 9 or 6 if gbu31/54, for 7 or 3 if gbu31 (but need to switch program manually)
+            - A/G mod 
+
+        1/ enter target point in UFC : 1.B 
+        2/ clic on PB 1 
+        3/ clic on PB2 : but order change with bomb type (and number) 
+           -> for gbu38 / 9 bombs : 
+                - no clic 
+                - 4 clic 
+                - 7 clic 
+                - 7 clic 
+                - 4 clic 
+                - 3 clic 
+                - 4 clic 
+                - 3 clic 
+                - 7 clic 
+            -> for gbu31 / 7 bomb 
+                - no clic 
+                - 3 clic 
+                - 5 clic 
+                - 5 clic 
+                - 3 clic 
+                - 2 clic 
+                - 5 clic 
+    ]]--
+
+function loadJDAMInF15E(cmds)
+    DatasPlane = {}
+    -- #j|1|38|300
+    local cmd = cmds[1]
+    local firstWPT = tostring(cmds[2])
+    local jdamType = tostring(cmds[3])
+    local number = 9
+    if (jdamType == "38" or jdamType == "54") then number = 9 end 
+    if (jdamType == "31") then number = 7 end 
+    local timeTransfert = cmds[4] or "300"
+
+    local mfdRight = 36 --MPD_FRIGHT 
+    local ufc = 56
+    local F15TimePress = 10
+    
+    local correspondances = {  --0 to 9
+        '3036','3020','3021','3022','3025','3026','3027','3030','3031','3032'
+    }
+    
+    local textCorrepondance = {  
+        ['A'] = "3020",
+        ['B'] = "3022",
+        ['C'] = "3032",
+        
+    }
+
+    local commande = {
+        ['accessSTR'] = "3010",
+        ['shift'] = "3033", 
+        ["changeWPT"] = "3001",
+        ["addToLat"] = "3002",
+        ["addToLong"] = "3003",
+        ["addToAlt"] = "3007",
+        ["north"] = "3021",
+        ["south"] = "3031",
+        ["east"] = "3027",
+        ["west"] = "3025",
+        ["nextStation"] = "3062",
+        ["transfert"] = "3061",
+    }
+
+
+
+    local jdamNumber = 1
+
+    for i = tonumber(firstWPT), tonumber(firstWPT) + tonumber(number) - 1 do    
+        local wpt = tostring(i)
+        for j = 1, #wpt do 
+            local position = wpt:sub(j,j)
+            local position = tonumber(position)
+            if position ~=nil then 
+                position = position+1
+                if (correspondances[position] ~= nil) then 
+                    clicOn(ufc,correspondances[position],F15TimePress)
+                end
+            end
+        end
+        clicOn(ufc, "3029",F15TimePress) -- targetpoint (dot)
+        clicOn(ufc, commande.shift,F15TimePress)
+        clicOn(ufc, textCorrepondance["B"],F15TimePress)
+        clicOn(ufc, commande.accessSTR, F15TimePress)
+        local numberClic = 0
+
+        if (jdamType == "38" or jdamType == "54") then numberClic = getClicNumberSmallJDAM(jdamNumber) end
+        if (jdamType == "31") then numberClic = getClicNumberLargeJDAM(jdamNumber) end
+
+        if numberClic > 0 then 
+            for i = 1, numberClic do 
+                clicOn(mfdRight, commande.nextStation, F15TimePress)
+            end
+        end
+        clicOn(mfdRight, commande.transfert, tonumber(timeTransfert))
+        jdamNumber = jdamNumber + 1
+    end
+    doLoadCoords = true
+end
 
 function loadInF15E()
     --[[
@@ -381,7 +507,7 @@ function loadInF15E()
         ['B'] = "3022",
         ['C'] = "3032",
         
-}
+    }
 
     local commande = {
         ['accessSTR'] = "3010",
@@ -970,6 +1096,7 @@ function loadScratchpad()
         local lineText = split(text,"\n")
         insertA10withWPT = false
         makeAllTargetPont = false
+        local loadJdam = {}
         -- if  (string.sub(text, 1,1) == "#") then
         --     insertA10withWPT = true
         -- elseif ( string.sub(text, 1,1) == "." ) then
@@ -978,51 +1105,67 @@ function loadScratchpad()
         if forceTargetPoint then makeAllTargetPont = true end
         
         for i = 1, #lineText do
-            log("lineText : ")
-            log(lineText[i])
-            if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil and string.sub(lineText[i], 1,1) ~= "#")  then
-                if string.sub(lineText[i], 1,1) == "*" then 
-                    local lineDatas = lineText[i]:gsub("*","")                
-                    local splitCoords = split(lineDatas,"|")
-                    addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5])
-                end
-            else
-                if (string.sub(lineText[i], 1,1) == "#") then 
-                    log("2,1 => ")
-                    log(string.sub(lineText[i], 2,2))
-                    if  (string.sub(lineText[i], 2,2) == "#") then
-                        insertA10withWPT = true
-                    elseif ( string.sub(lineText[i], 2,2) == "." ) then
-                        makeAllTargetPont = true
-                    elseif  ( string.sub(lineText[i], 2,2) == "*" ) then 
-                        local newConfigSpeed = string.sub(lineText[i], 3)
-                        if (newConfigSpeed ~= config.speedModificator and newConfigSpeed~= "") then 
-                            config.speedModificator = newConfigSpeed
-                            log("newConfigSpeed")
-                            log(newConfigSpeed)
-                            saveConfiguration()
+            if (#loadJdam == 0) then 
+                log("lineText : ")
+                log(lineText[i])
+                if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil and string.sub(lineText[i], 1,1) ~= "#")  then
+                    if string.sub(lineText[i], 1,1) == "*" then 
+                        local lineDatas = lineText[i]:gsub("*","")                
+                        local splitCoords = split(lineDatas,"|")
+                        addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5])
+                    end
+                else
+                    if (string.sub(lineText[i], 1,1) == "#") then 
+                        log("2,1 => ")
+                        log(string.sub(lineText[i], 2,2))
+                        if  (string.sub(lineText[i], 2,2) == "#") then
+                            insertA10withWPT = true
+                        elseif ( string.sub(lineText[i], 2,2) == "." ) then
+                            makeAllTargetPont = true
+                        elseif (string.sub(lineText[i], 2,2) == "j") then 
+                            local AirplaneType = DCS.getPlayerUnitType()
+                            if AirplaneType == "F-15ESE" then
+                                loadJdam = split(lineText[i],"|")  
+                                log("create jdam prog")
+                            end
+                        elseif  ( string.sub(lineText[i], 2,2) == "*" ) then 
+                            local newConfigSpeed = string.sub(lineText[i], 3)
+                            if (newConfigSpeed ~= config.speedModificator and newConfigSpeed~= "") then 
+                                config.speedModificator = newConfigSpeed
+                                log("newConfigSpeed")
+                                log(newConfigSpeed)
+                                saveConfiguration()
+                            end
                         end
                     end
                 end
             end
         end
  
-
-
-
-        local AirplaneType = DCS.getPlayerUnitType()
-
-        if AirplaneType == "A-10C_2" then
-            loadInA10()
-        elseif AirplaneType == "FA-18C_hornet" then
-            loadInF18()
-        elseif AirplaneType == "M-2000C" then 
-            loadInM2000()
-        elseif AirplaneType == "F-16C_50" then 
-            loadInF16()
-        elseif AirplaneType == "F-15ESE" then 
-            loadInF15E()
+        if (#loadJdam > 0) then 
+            log("loadJDAMInF15E")
+            loadJDAMInF15E(loadJdam)
+            loadJdam = {}
+            textarea:setText(text:gsub(lineText[1],""))
+        else 
+            local AirplaneType = DCS.getPlayerUnitType()
+            log(AirplaneType)
+    
+            if AirplaneType == "A-10C_2" then
+                loadInA10()
+            elseif AirplaneType == "FA-18C_hornet" then
+                loadInF18()
+            elseif AirplaneType == "M-2000C" then 
+                loadInM2000()
+            elseif AirplaneType == "F-16C_50" then 
+                loadInF16()
+            elseif AirplaneType == "F-15ESE" then 
+                loadInF15E()
+            end
         end
+
+
+
 
      end
 
