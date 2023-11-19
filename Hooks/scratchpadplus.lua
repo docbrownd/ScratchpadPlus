@@ -1180,10 +1180,10 @@ function loadScratchpad()
 
     
     function handleF15Btn(w,h)
-        targetButton:setBounds(0, h - 40, 60, 20)
-        listWPT:setBounds(120,h-38,80, 18)
-        btnF15GBU38:setBounds(210, h - 40, 70, 20)
-        btnF15GBU31:setBounds(285, h - 40, 70, 20)
+        targetButton:setBounds(0, h - 60, 60, 20)
+        listWPT:setBounds(120,h-58,80, 18)
+        btnF15GBU38:setBounds(210, h - 60, 70, 20)
+        btnF15GBU31:setBounds(285, h - 60, 70, 20)
 
       
     end
