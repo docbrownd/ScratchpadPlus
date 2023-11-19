@@ -1397,12 +1397,18 @@ function loadScratchpad()
         btnF15GBU31 = panel.F15JDAM31
         btnF15GBU38 = panel.F15JDAM38
 
+        local skin = textarea:getSkin()
+        skin.skinData.states.released[1].text.fontSize = config.fontSize
+        textarea:setSkin(skin)
+
+
         listWPT = ComboBox.new()
         for i = 1, 100 do 
             local item = listWPT:newItem("WPT" .. tostring(i))
-            --item:setSkin(windowDefaultSkin)
-        end
+            item:setSkin(skin)
 
+        end
+        --listWPT:setSkin(skin)
         listWPT:addChangeListBoxCallback(
             function(self)
                 local item = self:getSelectedItem()
@@ -1412,12 +1418,6 @@ function loadScratchpad()
         
         panel:insertWidget(listWPT)
 
-
-
-        -- setup textarea
-        local skin = textarea:getSkin()
-        skin.skinData.states.released[1].text.fontSize = config.fontSize
-        textarea:setSkin(skin)
 
         textarea:addFocusCallback(
             function(self)
