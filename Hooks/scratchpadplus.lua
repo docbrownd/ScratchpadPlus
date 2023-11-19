@@ -39,16 +39,17 @@ local insertInPlane = nil
 local cleanButton = nil
 local exportButton = nil
 local targetButton = nil
-local btnF15GBU31 = nil
-local btnF15GBU38 = nil
+local btnF15JDAM = nil
 local VRSwitch = nil
 
 local FPSEdit = nil
+local JDAMProg = nil
+local JDAMProgChoice = {"38", 9}
 
 local listWPT = nil
+
 local wpnChoice = ""
 
-local currentFPS = nil
 local lastTime = 0
 
 local findSkin = {}
@@ -163,8 +164,8 @@ function insertDatasInPlane()
 end
 
 function adaptFPS(timePress)
-    if (currentFPS ~= nil and currentFPS ~= "") then 
-        return math.floor(timePress * tonumber(currentFPS) / 180)
+    if (config.fps ~= nil and config.fps ~= "") then 
+        return math.floor(timePress * tonumber(config.fps) / 180)
     end
 
     return timePress
@@ -387,14 +388,23 @@ end
 
 function getClicNumberSmallJDAM(jdamNumber, count)
     count = count or 9
-    local seq =  {
-        0,4,7,7,4,3,4,3,7
-    }
+    local seq = {}
+
+    if (count == 9) then 
+        seq = {
+            0,4,7,7,4,3,4,3,7
+        }
+    end
+    
     if (count == 6) then 
         seq = {
-            0
+            0,3, 5, 3, 2, 3
         } 
     end
+
+
+
+
 
     return seq[jdamNumber]
 end
@@ -402,14 +412,33 @@ end
 
 function getClicNumberLargeJDAM(jdamNumber, count)
     count = count or 7
-    local seq =  {
-        0,3,5,5,3,2,5
-    }
+    local seq = {}
+
+    if (count == 7) then 
+        seq =  {
+            0,3,5,5,3,2,5
+        }
+    end
+
     if (count == 3) then 
         seq = {
-            0
+            0,2,1
         } 
     end
+
+    if (count == 4) then 
+        seq = {
+            0,2,3,1
+        } 
+    end
+
+    if (count == 5) then 
+        seq = {
+            0,3,4,4,3
+        } 
+    end
+
+
     
     return seq[jdamNumber]
 end
@@ -455,11 +484,13 @@ function loadJDAMInF15E(cmds)
     local cmd = cmds[1]
     local firstWPT = tostring(cmds[2])
     local jdamType = tostring(cmds[3])
-    local number = 9
-    if (jdamType == "38" or jdamType == "54") then number = 9 end 
-    if (jdamType == "31") then number = 7 end 
+    local number = tonumber(cmds[4]) or 9
 
-    local timeTransfert = tonumber(cmds[4]) or adaptFPS(300)
+
+    -- if (jdamType == "38" or jdamType == "54") then number = 9 end 
+    -- if (jdamType == "31") then number = 7 end 
+
+    local timeTransfert = adaptFPS(300)
     local F15TimePress = adaptFPS(10)
 
     local mfdRight = 36 --MPD_FRIGHT 
@@ -514,8 +545,8 @@ function loadJDAMInF15E(cmds)
         clicOn(ufc, commande.accessSTR, F15TimePress)
         local numberClic = 0
 
-        if (jdamType == "38" or jdamType == "54") then numberClic = getClicNumberSmallJDAM(jdamNumber) end
-        if (jdamType == "31") then numberClic = getClicNumberLargeJDAM(jdamNumber) end
+        if (jdamType == "38" or jdamType == "54") then numberClic = getClicNumberSmallJDAM(jdamNumber, number) end
+        if (jdamType == "31") then numberClic = getClicNumberLargeJDAM(jdamNumber, number) end
 
         if numberClic > 0 then 
             for i = 1, numberClic do 
@@ -546,13 +577,7 @@ function loadInF15E()
     ]]
 
     local deviceF15 = 56
-    local F15TimePress = 10
-
-
-
-    if (currentFPS ~= nil and currentFPS ~= "") then 
-        F15TimePress = math.floor(10*tonumber(currentFPS) / 180)
-    end
+    local F15TimePress = adaptFPS(10)
 
     log("in f15")
 
@@ -1235,17 +1260,15 @@ function loadScratchpad()
     function handleF15Btn(w,h)
         targetButton:setBounds(0, h - 60, 60, 20)
         listWPT:setBounds(120,h-58,80, 18)
-        btnF15GBU38:setBounds(210, h - 60, 70, 20)
-        btnF15GBU31:setBounds(285, h - 60, 70, 20)
-
-
+        JDAMProg:setBounds(210, h - 58, 120, 18)
+        btnF15JDAM:setBounds(335, h - 60, 70, 20)
     end
 
 
     function showF15SpecificBtn(state)
         targetButton:setVisible(state)
-        btnF15GBU38:setVisible(state)
-        btnF15GBU31:setVisible(state)
+        JDAMProg:setVisible(state)
+        btnF15JDAM:setVisible(state)
         listWPT:setVisible(state)
     end
 
@@ -1294,6 +1317,7 @@ function loadScratchpad()
         exportButton:setVisible(true)
         insertInPlane:setVisible(true)
         cleanButton:setVisible(true)
+        
 
     end
 
@@ -1391,11 +1415,13 @@ function loadScratchpad()
                 showF15SpecificBtn(false)
                 -- targetButton:setVisible(false)
             end
-
+        else 
+            cleanButton:setVisible(false)
+            insertInPlane:setVisible(false)
+            exportButton:setVisible(false)
+            showF15SpecificBtn(false)
         end
-        -- FPSEdit:setSkin( Skin.getSkin(findSkin[findSkinPostion]))
-        -- log(findSkin[findSkinPostion])
-        -- findSkinPostion = findSkinPostion + 1
+
         FPSEdit:setVisible(true)
 
     end
@@ -1443,8 +1469,7 @@ function loadScratchpad()
         cleanButton = panel.ScratchpadCleanButton
         exportButton = panel.ScratchpadExportButton
         targetButton = panel.ScratchpadTargetButton
-        btnF15GBU31 = panel.F15JDAM31
-        btnF15GBU38 = panel.F15JDAM38
+        btnF15JDAM = panel.F15JDAM
     end
 
     function configTextArea() 
@@ -1480,7 +1505,7 @@ function loadScratchpad()
         FPSEdit = ComboBox.new()
         local item = nil
         for i = 30, 200, 10 do 
-            item = FPSEdit:newItem(tostring(i))
+            item = FPSEdit:newItem(tostring(i) .. " fps")
             if (i == config.fps) then FPSEdit:selectItem(item) end
         end
 
@@ -1492,9 +1517,8 @@ function loadScratchpad()
 
         FPSEdit:addChangeCallback(
             function(self)
-                local item = self:getSelectedItem()
-                currentFPS = tonumber(item:getText())
-                config.fps = currentFPS
+                local select = self:getText():gsub(" fps","")
+                config.fps = tonumber(select)
                 saveConfiguration()
             end
         )
@@ -1518,6 +1542,38 @@ function loadScratchpad()
         )
 
         panel:insertWidget(listWPT)
+
+    end
+
+    function configComboBoxJDAM()
+        JDAMProg = ComboBox.new()
+        local progjdam = {
+            "3 bombes GBU31",
+            "4 bombes GBU31",
+            "5 bombes GBU31",
+            "7 bombes GBU31",
+            "6 bombes GBU38",
+            "9 bombes GBU38",
+        }
+        for index, datas in ipairs(progjdam) do 
+            local item = JDAMProg:newItem(datas)
+        end
+        JDAMProg:setSkin(Skin.getSkin("comboListSkin_options"))
+        JDAMProg:setTooltipText("JDAM")
+
+        JDAMProg:addChangeCallback(
+            function(self)
+                JDAMProgChoice = {}
+                local bombeType = self:getText():sub(-2)
+                log(bombeType)
+                local numberBomb = self:getText():sub(1,1)
+                log(numberBomb)
+                JDAMProgChoice = {bombeType, numberBomb} 
+                
+            end
+        )
+
+        panel:insertWidget(JDAMProg)
 
     end
 
@@ -1564,6 +1620,8 @@ function loadScratchpad()
         configTextArea()
         configComboBoxFPS()
         configComboBoxWPT()
+        configComboBoxJDAM()
+
         configVRSwitch()
 
 
@@ -1589,6 +1647,7 @@ function loadScratchpad()
         insertCoordsBtn:addMouseDownCallback(
             function(self)
                 insertCoordinates()
+                saveConfiguration()
             end
         )
         insertInPlane:addMouseDownCallback(
@@ -1616,25 +1675,15 @@ function loadScratchpad()
                 forceTargetPoint = false
             end
         )
-
-        btnF15GBU31:addMouseDownCallback(
-            function(self)
-                if (wpnChoice ~= nil and wpnChoice ~= "") then 
-                    log("jdam 31 text : "..tostring(wpnChoice))
-                    local cmd = {
-                        "#j", wpnChoice, "31"
-                    }
-                    loadJDAMInF15E(cmd)
-                end
-            end
-        )
   
-        btnF15GBU38:addMouseDownCallback(
+        btnF15JDAM:addMouseDownCallback(
             function(self)
                 if (wpnChoice ~= nil and wpnChoice ~= "") then 
                     log("jdam t 38 ext : "..tostring(wpnChoice))
+                    local number = JDAMProgChoice[2] or "9"
+                    local bombType = JDAMProgChoice[1] or "38"
                     local cmd = {
-                        "#j", wpnChoice, "38"
+                        "#j", wpnChoice, bombType, number
                     }
                     loadJDAMInF15E(cmd)
                 end

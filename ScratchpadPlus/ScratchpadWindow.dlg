@@ -204,8 +204,7 @@ dialog = {
                     },
                     ["type"] = "Button"
                 },
-
-                               ["F15JDAM38"] = {
+                ["F15JDAM"] = {
                     ["params"] = {
                         ["bounds"] = {
                             ["h"] = 20,
@@ -215,8 +214,8 @@ dialog = {
                         },
                         ["enabled"] = true,
                         ["tabOrder"] = 0,
-                        ["text"] = "Gbu38",
-                        ["tooltip"] = "Programmer les GBU38",
+                        ["text"] = "JDAM",
+                        ["tooltip"] = "Programmer les JDAM",
                         ["visible"] = false,
                         ["zindex"] = 1
                     },
@@ -227,30 +226,6 @@ dialog = {
                     },
                     ["type"] = "Button"
                 },
-
-                               ["F15JDAM31"] = {
-                    ["params"] = {
-                        ["bounds"] = {
-                            ["h"] = 20,
-                            ["w"] = 120,
-                            ["x"] = 105,
-                            ["y"] = 380
-                        },
-                        ["enabled"] = true,
-                        ["tabOrder"] = 0,
-                        ["text"] = "Gbu31",
-                        ["tooltip"] = "Programmer les GBU31",
-                        ["visible"] = false,
-                        ["zindex"] = 1
-                    },
-                    ["skin"] = {
-                        ["params"] = {
-                            ["name"] = "buttonSkinAwacs"
-                        }
-                    },
-                    ["type"] = "Button"
-                },
-
                 ["ScratchpadInsertButton"] = {
                     ["params"] = {
                         ["bounds"] = {
