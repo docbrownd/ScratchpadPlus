@@ -1256,8 +1256,10 @@ function loadScratchpad()
 
         insertCoordsBtn:setBounds(0, h - 80, 50, 20)
         crosshairCheckbox:setBounds(55, h - 79, 20, 20)
+        insertInPlane:setBounds(80,h-20,60,20)
         
-        cleanButton:setBounds(130,h-80,50,20)
+
+        cleanButton:setBounds(180,h-80,50,20)
         
         exportButton:setBounds(255, h-80,60,20)
 
@@ -1265,7 +1267,6 @@ function loadScratchpad()
         nextButton:setBounds(375, h - 80, 50, 20)
         
         
-        insertInPlane:setBounds(0,h-60,60,20)
 
         local AirplaneType = DCS.getPlayerUnitType()
 
@@ -1399,7 +1400,7 @@ function loadScratchpad()
         listWPT = ComboBox.new()
         for i = 1, 100 do 
             local item = listWPT:newItem("WPT" .. tostring(i))
-            item:setSkin(windowDefaultSkin)
+            --item:setSkin(windowDefaultSkin)
         end
 
         listWPT:addChangeListBoxCallback(
