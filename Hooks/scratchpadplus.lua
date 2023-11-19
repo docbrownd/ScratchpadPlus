@@ -6,7 +6,7 @@ local DialogLoader = require("DialogLoader")
 local Tools = require("tools")
 local Input = require("Input")
 local ComboBox = require("ComboList")
-local EditBox = require("EditBox")
+local Switch = require("ToggleButton")
 
 
 local dxgui = require('dxgui')
@@ -41,6 +41,7 @@ local exportButton = nil
 local targetButton = nil
 local btnF15GBU31 = nil
 local btnF15GBU38 = nil
+local VRSwitch = nil
 
 local FPSEdit = nil
 
@@ -49,6 +50,9 @@ local wpnChoice = ""
 
 local currentFPS = nil
 local lastTime = 0
+
+local findSkin = {}
+local findSkinPostion = 1
 
 -- State
 local isHidden = true
@@ -381,18 +385,32 @@ function loadInF18()
 end
 
 
-function getClicNumberSmallJDAM(jdamNumber)
+function getClicNumberSmallJDAM(jdamNumber, count)
+    count = count or 9
     local seq =  {
         0,4,7,7,4,3,4,3,7
     }
+    if (count == 6) then 
+        seq = {
+            0
+        } 
+    end
+
     return seq[jdamNumber]
 end
 
 
-function getClicNumberLargeJDAM(jdamNumber)
+function getClicNumberLargeJDAM(jdamNumber, count)
+    count = count or 7
     local seq =  {
         0,3,5,5,3,2,5
     }
+    if (count == 3) then 
+        seq = {
+            0
+        } 
+    end
+    
     return seq[jdamNumber]
 end
 
@@ -1228,6 +1246,7 @@ function loadScratchpad()
         targetButton:setVisible(state)
         btnF15GBU38:setVisible(state)
         btnF15GBU31:setVisible(state)
+        listWPT:setVisible(state)
     end
 
     function insertCoordinates()
@@ -1288,6 +1307,8 @@ function loadScratchpad()
         panel:setBounds(0, 0, w, h - 20)
         textarea:setBounds(0, 0, w, h - 20 - 20 - 20 - 20)
 
+        VRSwitch:setBounds(w-70,0,60,20)
+
         insertCoordsBtn:setBounds(0, h - 80, 50, 20)
         crosshairCheckbox:setBounds(55, h - 79, 20, 20)
         insertInPlane:setBounds(80,h-80,60,20)
@@ -1344,8 +1365,7 @@ function loadScratchpad()
         window:setSkin(windowDefaultSkin)
         panel:setVisible(true)
         window:setHasCursor(true)
-        listWPT:setVisible(true)
-        FPSEdit:setVisible(true)
+       
 
         loadAllPages()
 
@@ -1373,6 +1393,11 @@ function loadScratchpad()
             end
 
         end
+        -- FPSEdit:setSkin( Skin.getSkin(findSkin[findSkinPostion]))
+        -- log(findSkin[findSkinPostion])
+        -- findSkinPostion = findSkinPostion + 1
+        FPSEdit:setVisible(true)
+
     end
 
     function hide()
@@ -1453,15 +1478,18 @@ function loadScratchpad()
 
     function configComboBoxFPS()
         FPSEdit = ComboBox.new()
-        local fpsSkin = prevButton:getSkin()
+        local item = nil
         for i = 30, 200, 10 do 
-            local item = FPSEdit:newItem(tostring(i))
+            item = FPSEdit:newItem(tostring(i))
             if (i == config.fps) then FPSEdit:selectItem(item) end
-            item:setSkin(fpsSkin)
         end
 
         FPSEdit:setTooltipText("Sélectionner vos FPS")
-        FPSEdit:setSkin(fpsSkin)
+
+        FPSEdit:setSkin(Skin.getSkin("comboListSkin_options"))
+       
+     
+
         FPSEdit:addChangeCallback(
             function(self)
                 local item = self:getSelectedItem()
@@ -1476,13 +1504,10 @@ function loadScratchpad()
 
     function configComboBoxWPT()
         listWPT = ComboBox.new()
-        local listSkin = prevButton:getSkin()
         for i = 1, 100 do 
             local item = listWPT:newItem("WPT" .. tostring(i))
-            item:setSkin(listSkin)
-
         end
-        listWPT:setSkin(listSkin)
+        listWPT:setSkin(Skin.getSkin("comboListSkin_options"))
         listWPT:setTooltipText("WPT")
 
         listWPT:addChangeCallback(
@@ -1494,6 +1519,32 @@ function loadScratchpad()
 
         panel:insertWidget(listWPT)
 
+    end
+
+    function configVRSwitch()
+        VRSwitch = Switch.new("VR") 
+        local state = false 
+        if (config.vr ~= nil) then state = config.vr.enabled end
+        VRSwitch:setState(state)
+        VRSwitch:setVisible(true)
+        VRSwitch:setTooltipText("Bloque l'enregistrement de la position de la fenêtre pour le prochaine démarrage")
+        VRSwitch:setSkin(Skin.getSkin("toggleButtonCampSkin")) --toggleButtonSkinAwacs
+        VRSwitch:addChangeCallback(
+            function(self)
+                if (self:getState()) then
+                    config.vr = {
+                        enabled = true,
+                        x = config.windowPosition.x,
+                        y = config.windowPosition.y,
+                    }
+                else
+                    config.vr = {enabled = false}
+                end
+                saveConfiguration()
+            end
+        )
+
+        panel:insertWidget(VRSwitch)
     end
 
 
@@ -1513,6 +1564,9 @@ function loadScratchpad()
         configTextArea()
         configComboBoxFPS()
         configComboBoxWPT()
+        configVRSwitch()
+
+
 
         -- setup button and checkbox callbacks
         prevButton:addMouseDownCallback(
