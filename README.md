@@ -109,6 +109,11 @@ En fonction de votre config il est possible que le transfère aille trop vite ou
 
 => il y aura une pause de 300 frames entre 2 transfères (config par défaut)
 
+A partir de la version 2.0, l'interface change et permet de programmer les JDAM sans commande : 
+ - Sélectionner le n° de WPT à partir duquel commencer via la selectbox 
+ - cliquer sur Gbu31 si vous avez 7 GBU31
+ - cliquer sur Gbu38 si vous avez 9 GBU38 (d'autres combinaisons seront bientot possible, de même que le réglage de la pause)
+
 
 Le programme fera +1 pour chaque WPT, tant que DCS ne sera pas redémarré. 
 Pour le forcer à revenir à 1, il faut ajouter, juste avant le premier 'insert', les caratères ## au niveau de la première ligne de ScratchpadPlus. 

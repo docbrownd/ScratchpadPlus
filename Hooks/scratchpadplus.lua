@@ -5,6 +5,9 @@ local Skin = require("Skin")
 local DialogLoader = require("DialogLoader")
 local Tools = require("tools")
 local Input = require("Input")
+local ComboBox = require("ComboBox")
+
+
 local dxgui = require('dxgui')
 
 package.path = package.path .. ";.\\Scripts\\?.lua;.\\Scripts\\UI\\?.lua;"
@@ -35,6 +38,12 @@ local insertInPlane = nil
 local cleanButton = nil
 local exportButton = nil
 local targetButton = nil
+local btnF15GBU31 = nil
+local btnF15GBU38 = nil
+
+local listWPT = nil
+local wpnChoice = ""
+
 
 -- State
 local isHidden = true
@@ -1167,9 +1176,25 @@ function loadScratchpad()
 
 
 
-     end
+    end
+
+    
+    function handleF15Btn(w,h)
+        targetButton:setBounds(0, h - 40, 60, 20)
+        listWPT:setBounds(120,h-38,80, 18)
+        btnF15GBU38:setBounds(210, h - 40, 70, 20)
+        btnF15GBU31:setBounds(285, h - 40, 70, 20)
+
+      
+    end
 
 
+    function showF15SpecificBtn(state)
+        targetButton:setVisible(state)
+        btnF15GBU38:setVisible(state)
+        btnF15GBU31:setVisible(state)
+
+    end
 
     function insertCoordinates()
         local pos = Export.LoGetCameraPosition().p
@@ -1207,12 +1232,11 @@ function loadScratchpad()
 
 
 
-
         local AirplaneType = DCS.getPlayerUnitType()
         if AirplaneType == "F-15ESE" then 
-            targetButton:setVisible(true)
+            showF15SpecificBtn(true)
         else 
-            targetButton:setVisible(false)
+            showF15SpecificBtn(false)
         end
         exportButton:setVisible(true)
         insertInPlane:setVisible(true)
@@ -1228,30 +1252,33 @@ function loadScratchpad()
         local w, h = self:getSize()
 
         panel:setBounds(0, 0, w, h - 20)
-        textarea:setBounds(0, 0, w, h - 20 - 20)
-        prevButton:setBounds(0, h - 40, 50, 20)
-        nextButton:setBounds(55, h - 40, 50, 20)
-        crosshairCheckbox:setBounds(120, h - 39, 20, 20)
+        textarea:setBounds(0, 0, w, h - 20 - 20 - 20 - 20)
 
-        cleanButton:setBounds(200,h-40,50,20)
-        insertInPlane:setBounds(270,h-40,60,20)
-        exportButton:setBounds(340, h-40,60,20)
+        insertCoordsBtn:setBounds(0, h - 80, 50, 20)
+        crosshairCheckbox:setBounds(55, h - 79, 20, 20)
+        
+        cleanButton:setBounds(130,h-80,50,20)
+        
+        exportButton:setBounds(255, h-80,60,20)
 
+        prevButton:setBounds(320, h - 80, 50, 20)
+        nextButton:setBounds(375, h - 80, 50, 20)
+        
+        
+        insertInPlane:setBounds(0,h-60,60,20)
 
         local AirplaneType = DCS.getPlayerUnitType()
 
-      
         if AirplaneType == "F-15ESE" then 
-            targetButton:setBounds(410, h-40,60,20)
+            handleF15Btn(w,h)
         end
         
 
         
-        if pagesCount > 1 then
-            insertCoordsBtn:setBounds(145, h - 40, 50, 20)
-        else
-            insertCoordsBtn:setBounds(0, h - 40, 50, 20)
-        end
+        -- if pagesCount > 1 then
+        -- else
+        --     insertCoordsBtn:setBounds(0, h - 60, 50, 20)
+        -- end
 
         config.windowSize = {w = w, h = h}
         if (config.vr ~= true) then saveConfiguration() end
@@ -1282,29 +1309,30 @@ function loadScratchpad()
         window:setSkin(windowDefaultSkin)
         panel:setVisible(true)
         window:setHasCursor(true)
+        listWPT:setVisible(true)
         loadAllPages()
 
         -- show prev/next buttons only if we have more than one page
-        if pagesCount > 1 then
-            prevButton:setVisible(true)
-            nextButton:setVisible(true)
-        else
-            prevButton:setVisible(false)
-            nextButton:setVisible(false)
-        end
+       
+        prevButton:setVisible(true)
+        nextButton:setVisible(true)
+       
 
         updateCoordsMode()
         isHidden = false
         firstInsertion = true
+
         if textarea:getText() ~= nil and textarea:getText() ~= "" then 
             cleanButton:setVisible(true)
             insertInPlane:setVisible(true)
             exportButton:setVisible(true)
             local AirplaneType = DCS.getPlayerUnitType()
             if AirplaneType == "F-15ESE" then 
-                targetButton:setVisible(true)
+                showF15SpecificBtn(true)
+                -- targetButton:setVisible(true)
             else 
-                targetButton:setVisible(false)
+                showF15SpecificBtn(false)
+                -- targetButton:setVisible(false)
             end
 
         end
@@ -1364,6 +1392,25 @@ function loadScratchpad()
         cleanButton = panel.ScratchpadCleanButton
         exportButton = panel.ScratchpadExportButton
         targetButton = panel.ScratchpadTargetButton
+        btnF15GBU31 = panel.F15JDAM31
+        btnF15GBU38 = panel.F15JDAM38
+
+        listWPT = ComboBox.new()
+        for i = 1, 100 do 
+            local item = listWPT:newItem("WPT" .. tostring(i))
+            item:setSkin(windowDefaultSkin)
+        end
+
+        listWPT:addChangeListBoxCallback(
+            function(self)
+                local item = self:getSelectedItem()
+                wpnChoice = tostring(self:getItemIndex(item) + 1)
+            end)
+        
+        
+        panel:insertWidget(listWPT)
+
+
 
         -- setup textarea
         local skin = textarea:getSkin()
@@ -1439,6 +1486,31 @@ function loadScratchpad()
                 forceTargetPoint = false
             end
         )
+
+        btnF15GBU31:addMouseDownCallback(
+            function(self)
+                if (wpnChoice ~= nil and wpnChoice ~= "") then 
+                    log("jdam 31 text : "..tostring(wpnChoice))
+                    local cmd = {
+                        "#j", wpnChoice, "31"
+                    }
+                    loadJDAMInF15E(cmd)
+                end
+            end
+        )
+  
+        btnF15GBU38:addMouseDownCallback(
+            function(self)
+                if (wpnChoice ~= nil and wpnChoice ~= "") then 
+                    log("jdam t 38 ext : "..tostring(wpnChoice))
+                    local cmd = {
+                        "#j", wpnChoice, "38"
+                    }
+                    loadJDAMInF15E(cmd)
+                end
+            end
+        )
+  
   
 
         -- setup window

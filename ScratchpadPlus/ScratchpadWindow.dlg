@@ -17,7 +17,7 @@ dialog = {
         ["offscreen"] = false,
         ["resizable"] = true,
         ["zOrder"] = 112,
-        ["text"] = "Scratchpad"
+        ["text"] = "ScratchpadPlus"
     },
     ["skin"] = {
         ["params"] = {
@@ -194,6 +194,52 @@ dialog = {
                         ["tabOrder"] = 0,
                         ["text"] = "Target",
                         ["tooltip"] = "Insérer des Target Point",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+
+                               ["F15JDAM38"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 120,
+                            ["x"] = 105,
+                            ["y"] = 380
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Gbu38",
+                        ["tooltip"] = "Programmer les GBU38",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+
+                               ["F15JDAM31"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 120,
+                            ["x"] = 105,
+                            ["y"] = 380
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Gbu31",
+                        ["tooltip"] = "Programmer les GBU31",
                         ["visible"] = false,
                         ["zindex"] = 1
                     },
