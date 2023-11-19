@@ -1295,6 +1295,7 @@ function loadScratchpad()
         crosshairCheckbox:setVisible(inMission and Export.LoIsOwnshipExportAllowed())
         crosshairWindow:setVisible(inMission and crosshairCheckbox:getState())
         insertCoordsBtn:setVisible(inMission and crosshairCheckbox:getState())
+        insertInPlane:setVisible(inMission)
     end
 
     function show()
@@ -1324,7 +1325,7 @@ function loadScratchpad()
 
         if textarea:getText() ~= nil and textarea:getText() ~= "" then 
             cleanButton:setVisible(true)
-            insertInPlane:setVisible(true)
+            insertInPlane:setVisible(inMission)
             exportButton:setVisible(true)
             local AirplaneType = DCS.getPlayerUnitType()
             if AirplaneType == "F-15ESE" then 
