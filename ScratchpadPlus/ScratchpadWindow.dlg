@@ -335,7 +335,8 @@ dialog = {
                         }
                     },
                     ["type"] = "EditBox"
-                }
+                },
+
             },
             ["params"] = {
                 ["bounds"] = {

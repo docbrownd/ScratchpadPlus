@@ -5,7 +5,8 @@ local Skin = require("Skin")
 local DialogLoader = require("DialogLoader")
 local Tools = require("tools")
 local Input = require("Input")
-local ComboBox = require("ComboBox")
+local ComboBox = require("ComboList")
+local EditBox = require("EditBox")
 
 
 local dxgui = require('dxgui')
@@ -41,9 +42,13 @@ local targetButton = nil
 local btnF15GBU31 = nil
 local btnF15GBU38 = nil
 
+local FPSEdit = nil
+
 local listWPT = nil
 local wpnChoice = ""
 
+local currentFPS = nil
+local lastTime = 0
 
 -- State
 local isHidden = true
@@ -153,6 +158,16 @@ function insertDatasInPlane()
 
 end
 
+function adaptFPS(timePress)
+    if (currentFPS ~= nil and currentFPS ~= "") then 
+        return math.floor(timePress * tonumber(currentFPS) / 180)
+    end
+
+    return timePress
+
+end
+
+
 function loadInM2000()
     local indexCoords = {
         "lat","long"
@@ -160,59 +175,61 @@ function loadInM2000()
     DatasPlane = {}
     local correspondance = {'3593','3584','3585','3586','3587','3588','3589','3590','3591','3592'}
 
+    local M200TimePress = adaptFPS(20)
+
     for i, v in ipairs(globalCoords) do
-        clicOn(9,"3574",20,0.4)
-        clicOn(9,"3110",20)
+        clicOn(9,"3574",M200TimePress,0.4)
+        clicOn(9,"3110",M200TimePress)
         --  if firstInsertion then 
         --     clicOn(9,"3110",10)
         --     firstInsertion = false
         -- end
 
-        clicOn(9,"3570",20)
-        clicOn(9,"3570",20)
-        clicOn(9,"3584",20)
+        clicOn(9,"3570",M200TimePress)
+        clicOn(9,"3570",M200TimePress)
+        clicOn(9,"3584",M200TimePress)
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
                 if vv == "N" then 
-                    clicOn(9,"3585",20)
+                    clicOn(9,"3585",M200TimePress)
                 elseif vv == "E" then
-                    clicOn(9,"3589",20)
+                    clicOn(9,"3589",M200TimePress)
                 elseif vv == "S" then
-                    clicOn(9,"3591",20)
+                    clicOn(9,"3591",M200TimePress)
                 elseif vv == "W" then
-                    clicOn(9,"3587",20)
+                    clicOn(9,"3587",M200TimePress)
                 elseif vv == "'" then 
-                    clicOn(9,"3596",20)
+                    clicOn(9,"3596",M200TimePress)
                     if vvv == "lat" then 
-                        clicOn(9,"3586",20)
+                        clicOn(9,"3586",M200TimePress)
                     end
                 else
                     local position = tonumber(vv)
                     if position ~=nil then 
                         position = position+1
                         if (correspondance[position] ~= nil) then 
-                            clicOn(9,correspondance[position],20)
+                            clicOn(9,correspondance[position],M200TimePress)
                         end
                     end
                 end
             end
         end
-        clicOn(9,"3574",20,0.3)
-        clicOn(9,"3584",20)
-        clicOn(9,"3584",20)
+        clicOn(9,"3574",M200TimePress,0.3)
+        clicOn(9,"3584",M200TimePress)
+        clicOn(9,"3584",M200TimePress)
         for ii, vv in ipairs(v["alt"]) do 
             local position = tonumber(vv)
             if position ~=nil then 
                 position = position+1
                 if (correspondance[position] ~= nil) then 
-                    clicOn(9,correspondance[position],20)
+                    clicOn(9,correspondance[position],M200TimePress)
                 end
             end
         end
-        clicOn(9,"3596",20)
+        clicOn(9,"3596",M200TimePress)
         
     end 
-    clicOn(9,"3574",10,0.4)
+    clicOn(9,"3574",M200TimePress,0.4)
     
     doLoadCoords = true
 end
@@ -229,38 +246,40 @@ function loadInF16()
 
     local correspondance = {'3002','3003','3004','3005','3006','3007','3008','3009','3010','3011','3027'}
 
+    local F16TimePress = adaptFPS(20)
 
-    clicOn(17,"3032",20, -1)
-    clicOn(17,"3006",10)
+
+    clicOn(17,"3032",F16TimePress, -1)
+    clicOn(17,"3006",F16TimePress)
 
     for i, v in ipairs(globalCoords) do
-        clicOn(17,"3030",10)
-        clicOn(17,"3035",20,-1)
-        clicOn(17,"3035",20,-1) 
+        clicOn(17,"3030",F16TimePress)
+        clicOn(17,"3035",F16TimePress,-1)
+        clicOn(17,"3035",F16TimePress,-1) 
 
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
                 if vv == "N" then 
-                    clicOn(17,"3004",10)
+                    clicOn(17,"3004",F16TimePress)
                 elseif  vv == "S" then 
-                    clicOn(17,"3010",10)
+                    clicOn(17,"3010",F16TimePress)
                 elseif vv == "E" then 
-                    clicOn(17,"3008",10)
+                    clicOn(17,"3008",F16TimePress)
                 elseif vv == "W" then 
-                    clicOn(17,"3006",10)
+                    clicOn(17,"3006",F16TimePress)
                 elseif (vv == "." or vv == "'") then 
                 else            
                     local position = tonumber(vv)
                     if position ~=nil then 
                         position = position+1
                         if (correspondance[position] ~= nil) then 
-                            clicOn(17,correspondance[position],10)
+                            clicOn(17,correspondance[position],F16TimePress)
                         end
                     end
                 end
             end
-            clicOn(17,"3016",10)
-            clicOn(17,"3035",20,-1)
+            clicOn(17,"3016",F16TimePress)
+            clicOn(17,"3035",F16TimePress,-1)
         end
 
         for ii, vv in ipairs(v["alt"]) do 
@@ -268,23 +287,23 @@ function loadInF16()
             if position ~=nil then 
                 position = position+1
                 if (correspondance[position] ~= nil) then 
-                    clicOn(17,correspondance[position],10)
+                    clicOn(17,correspondance[position],F16TimePress)
                 end
             end
         end
-        clicOn(17,"3016",10)
+        clicOn(17,"3016",F16TimePress)
 
-        clicOn(17,"3034",20)
-        clicOn(17,"3034",20)
-        clicOn(17,"3034",20)
-        clicOn(17,"3034",20)
+        clicOn(17,"3034",F16TimePress)
+        clicOn(17,"3034",F16TimePress)
+        clicOn(17,"3034",F16TimePress)
+        clicOn(17,"3034",F16TimePress)
 
 
 
     end
 
 
-        clicOn(17,"3032",20,-1)
+        clicOn(17,"3032",F16TimePress,-1)
 
 
 
@@ -299,57 +318,62 @@ function loadInF18()
     }
     DatasPlane = {}
     local correspondance = {'3018','3019','3020','3021','3022','3023','3024','3025','3026','3027'}
-    clicOn(37,"3028",40)
-    clicOn(37,"3028",40)
-    clicOn(37,"3012",40)
-    clicOn(37,"3020",40)
+
+    local F18TimePress = adaptFPS(40)
+
+    local F18TimePressShort = adaptFPS(5)
+
+
+
+    clicOn(37,"3028",F18TimePress)
+    clicOn(37,"3028",F18TimePress)
+    clicOn(37,"3012",F18TimePress)
+    clicOn(37,"3020",F18TimePress)
     -- clicOn(37,"3022",40)
     for i, v in ipairs(globalCoords) do
-        clicOn(37,"3022",20)
-        -- if firstInsertion then 
-            -- clicOn(37,"3022",20)
-            -- firstInsertion = false
-        -- end
+        clicOn(37,"3022",F18TimePress) --20
+      
 
-        clicOn(37,"3015",50)
-        clicOn(25,"3010",50)
+        clicOn(37,"3015",F18TimePress) --50
+        clicOn(25,"3010",F18TimePress) --50
       
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
                 if vv == "N" then 
-                    clicOn(25,"3020",0)
+                    clicOn(25,"3020",F18TimePress) 
                 elseif  vv == "S" then 
-                    clicOn(25,"3026",0)
+                    clicOn(25,"3026",F18TimePress)
                 elseif vv == "E" then 
-                    clicOn(25,"3024",30)
+                    clicOn(25,"3024",F18TimePress) --30
                 elseif vv == "W" then 
-                    clicOn(25,"3022",30)
+                    clicOn(25,"3022",F18TimePress) --30
                 elseif (vv == "." or vv == "'") then 
-                    clicOn(25,"3029",60)
+                    clicOn(25,"3029",F18TimePress) --60
                 else            
                     local position = tonumber(vv)
                     if position ~=nil then 
                         position = position+1
                         if (correspondance[position] ~= nil) then 
-                            clicOn(25,correspondance[position],5)
+                            clicOn(25,correspondance[position],F18TimePressShort) --5
                         end
                     end
                 end
             end
         end
 
-        clicOn(25,"3012",50)
-        clicOn(25,"3010",50)
+        clicOn(25,"3012",F18TimePress) --50
+        clicOn(25,"3010",F18TimePress) --50
+
         for ii, vv in ipairs(v["alt"]) do 
             local position = tonumber(vv)
             if position ~=nil then 
                 position = position+1
                 if (correspondance[position] ~= nil) then 
-                    clicOn(25,correspondance[position],0)
+                    clicOn(25,correspondance[position],F18TimePressShort)
                 end
             end
         end
-        clicOn(25,"3029",40)
+        clicOn(25,"3029",F18TimePress)
         
     end
     
@@ -416,11 +440,13 @@ function loadJDAMInF15E(cmds)
     local number = 9
     if (jdamType == "38" or jdamType == "54") then number = 9 end 
     if (jdamType == "31") then number = 7 end 
-    local timeTransfert = cmds[4] or "300"
+
+    local timeTransfert = tonumber(cmds[4]) or adaptFPS(300)
+    local F15TimePress = adaptFPS(10)
 
     local mfdRight = 36 --MPD_FRIGHT 
     local ufc = 56
-    local F15TimePress = 10
+
     
     local correspondances = {  --0 to 9
         '3036','3020','3021','3022','3025','3026','3027','3030','3031','3032'
@@ -504,6 +530,11 @@ function loadInF15E()
     local deviceF15 = 56
     local F15TimePress = 10
 
+
+
+    if (currentFPS ~= nil and currentFPS ~= "") then 
+        F15TimePress = math.floor(10*tonumber(currentFPS) / 180)
+    end
 
     log("in f15")
 
@@ -911,32 +942,36 @@ function loadScratchpad()
             config = tbl.config
             if config.speedModificator == nil then 
                 config.speedModificator = 1
-                saveConfiguration()
             end
-            -- config migration
 
-            -- add default fontSize config
             if config.fontSize == nil then
                 config.fontSize = 14
-                saveConfiguration()
             end
 
-            -- move content into text file
+            if config.fps == nil then 
+                config.fps = 60
+            end
+
             if config.content ~= nil then
                 savePage(dirPath .. [[0000.txt]], config.content, false)
                 config.content = nil
-                saveConfiguration()
             end
         else
             log("Configuration not found, creating defaults...")
+            local screenWidth, screenHeigt = dxgui.GetScreenSize()
+            local x = screenWidth/2 
+            local y = screenHeigt/2 
+
             config = {
                 hotkey = "Ctrl+Shift+w",
-                windowPosition = {x = 200, y = 200},
-                windowSize = {w = 40, h = 200},
-                fontSize = 14
+                windowPosition = {x = math.floor(x) - 230 , y = math.floor(y) - 160},
+                windowSize = {w = 470, h = 326},
+                fontSize = 14,
+                fps = 60
             }
-            saveConfiguration()
         end
+        saveConfiguration()
+
         loadAllPages()
 
     end
@@ -1185,7 +1220,7 @@ function loadScratchpad()
         btnF15GBU38:setBounds(210, h - 60, 70, 20)
         btnF15GBU31:setBounds(285, h - 60, 70, 20)
 
-      
+
     end
 
 
@@ -1193,7 +1228,6 @@ function loadScratchpad()
         targetButton:setVisible(state)
         btnF15GBU38:setVisible(state)
         btnF15GBU31:setVisible(state)
-
     end
 
     function insertCoordinates()
@@ -1256,16 +1290,16 @@ function loadScratchpad()
 
         insertCoordsBtn:setBounds(0, h - 80, 50, 20)
         crosshairCheckbox:setBounds(55, h - 79, 20, 20)
-        insertInPlane:setBounds(80,h-20,60,20)
+        insertInPlane:setBounds(80,h-80,60,20)
         
+        FPSEdit:setBounds(150, h - 79, 70, 18)
 
-        cleanButton:setBounds(180,h-80,50,20)
+        cleanButton:setBounds(225,h-80,50,20)
         
-        exportButton:setBounds(255, h-80,60,20)
+        exportButton:setBounds(280, h-80,60,20)
 
-        prevButton:setBounds(320, h - 80, 50, 20)
-        nextButton:setBounds(375, h - 80, 50, 20)
-        
+        prevButton:setBounds(345, h - 80, 50, 20)
+        nextButton:setBounds(400, h - 80, 50, 20)
         
 
         local AirplaneType = DCS.getPlayerUnitType()
@@ -1274,7 +1308,6 @@ function loadScratchpad()
             handleF15Btn(w,h)
         end
         
-
         
         -- if pagesCount > 1 then
         -- else
@@ -1282,13 +1315,13 @@ function loadScratchpad()
         -- end
 
         config.windowSize = {w = w, h = h}
-        if (config.vr ~= true) then saveConfiguration() end
+        saveConfiguration()
     end
 
     function handleMove(self)
         local x, y = self:getPosition()
         config.windowPosition = {x = x, y = y}
-        if (config.vr ~= true) then saveConfiguration() end
+        saveConfiguration()
     end
 
     function updateCoordsMode()
@@ -1312,13 +1345,15 @@ function loadScratchpad()
         panel:setVisible(true)
         window:setHasCursor(true)
         listWPT:setVisible(true)
+        FPSEdit:setVisible(true)
+
         loadAllPages()
 
         -- show prev/next buttons only if we have more than one page
        
         prevButton:setVisible(true)
         nextButton:setVisible(true)
-       
+        
 
         updateCoordsMode()
         isHidden = false
@@ -1371,18 +1406,7 @@ function loadScratchpad()
         log("Crosshair window created")
     end
 
-    function createScratchpadWindow()
-        if window ~= nil then
-            return
-        end
-
-        createCrosshairWindow()
-
-        window = DialogLoader.spawnDialogFromFile(
-            lfs.writedir() .. "Scripts\\ScratchpadPlus\\ScratchpadWindow.dlg",
-            cdata
-        )
-
+    function loadPanels()
         windowDefaultSkin = window:getSkin()
         panel = window.Box
         textarea = panel.ScratchpadEditBox
@@ -1396,28 +1420,12 @@ function loadScratchpad()
         targetButton = panel.ScratchpadTargetButton
         btnF15GBU31 = panel.F15JDAM31
         btnF15GBU38 = panel.F15JDAM38
+    end
 
+    function configTextArea() 
         local skin = textarea:getSkin()
         skin.skinData.states.released[1].text.fontSize = config.fontSize
         textarea:setSkin(skin)
-
-
-        listWPT = ComboBox.new()
-        for i = 1, 100 do 
-            local item = listWPT:newItem("WPT" .. tostring(i))
-            item:setSkin(skin)
-
-        end
-        --listWPT:setSkin(skin)
-        listWPT:addChangeListBoxCallback(
-            function(self)
-                local item = self:getSelectedItem()
-                wpnChoice = tostring(self:getItemIndex(item) + 1)
-            end)
-        
-        
-        panel:insertWidget(listWPT)
-
 
         textarea:addFocusCallback(
             function(self)
@@ -1438,6 +1446,73 @@ function loadScratchpad()
                 end
             end
         )
+
+
+    end
+
+
+    function configComboBoxFPS()
+        FPSEdit = ComboBox.new()
+        local fpsSkin = prevButton:getSkin()
+        for i = 30, 200, 10 do 
+            local item = FPSEdit:newItem(tostring(i))
+            if (i == config.fps) then FPSEdit:selectItem(item) end
+            item:setSkin(fpsSkin)
+        end
+
+        FPSEdit:setTooltipText("Sélectionner vos FPS")
+        FPSEdit:setSkin(fpsSkin)
+        FPSEdit:addChangeCallback(
+            function(self)
+                local item = self:getSelectedItem()
+                currentFPS = tonumber(item:getText())
+                config.fps = currentFPS
+                saveConfiguration()
+            end
+        )
+        panel:insertWidget(FPSEdit)
+    end
+
+
+    function configComboBoxWPT()
+        listWPT = ComboBox.new()
+        local listSkin = prevButton:getSkin()
+        for i = 1, 100 do 
+            local item = listWPT:newItem("WPT" .. tostring(i))
+            item:setSkin(listSkin)
+
+        end
+        listWPT:setSkin(listSkin)
+        listWPT:setTooltipText("WPT")
+
+        listWPT:addChangeCallback(
+            function(self)
+                local item = self:getSelectedItem()
+                wpnChoice = tostring(self:getItemIndex(item) + 1)
+            end
+        )
+
+        panel:insertWidget(listWPT)
+
+    end
+
+
+    function createScratchpadWindow()
+        if window ~= nil then
+            return
+        end
+
+        createCrosshairWindow()
+
+        window = DialogLoader.spawnDialogFromFile(
+            lfs.writedir() .. "Scripts\\ScratchpadPlus\\ScratchpadWindow.dlg",
+            cdata
+        )
+
+        loadPanels()
+        configTextArea()
+        configComboBoxFPS()
+        configComboBoxWPT()
 
         -- setup button and checkbox callbacks
         prevButton:addMouseDownCallback(
@@ -1470,8 +1545,7 @@ function loadScratchpad()
         cleanButton:addMouseDownCallback(
             function(self)
                 cleanText()
-                if (config.vr ~= true) then saveConfiguration() end
-                -- saveConfiguration()
+                saveConfiguration()
             end
         )
         exportButton:addMouseDownCallback(
@@ -1516,12 +1590,22 @@ function loadScratchpad()
   
 
         -- setup window
-        window:setBounds(
-            config.windowPosition.x,
-            config.windowPosition.y,
-            config.windowSize.w,
-            config.windowSize.h
-        )
+        if (config.vr ~= nil and config.vr.enabled == true) then 
+            window:setBounds(
+                config.vr.x,
+                config.vr.y,
+                config.windowSize.w,
+                config.windowSize.h
+            )
+        else 
+            window:setBounds(
+                config.windowPosition.x,
+                config.windowPosition.y,
+                config.windowSize.w,
+                config.windowSize.h
+            )
+        end
+
         handleResize(window)
 
         window:addHotKeyCallback(
@@ -1545,6 +1629,7 @@ function loadScratchpad()
     end
 
     local handler = {}
+
     function handler.onSimulationFrame()
         if config == nil then
             loadConfiguration()
@@ -1558,6 +1643,8 @@ function loadScratchpad()
         if doLoadCoords == true then 
             insertDatasInPlane()
         end
+
+        
 
     end
     function handler.onMissionLoadEnd()
