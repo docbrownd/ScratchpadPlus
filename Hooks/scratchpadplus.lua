@@ -164,6 +164,7 @@ function insertDatasInPlane()
 end
 
 function adaptFPS(timePress)
+    log(tostring(config.fps))
     if (config.fps ~= nil and config.fps ~= "") then 
         return math.floor(timePress * tonumber(config.fps) / 180)
     end
@@ -324,16 +325,19 @@ function loadInF18()
     DatasPlane = {}
     local correspondance = {'3018','3019','3020','3021','3022','3023','3024','3025','3026','3027'}
 
-    local F18TimePress = adaptFPS(40)
-
+    local F18TimePress = adaptFPS(30)
+    local F18TimePressSwitch = adaptFPS(50)
     local F18TimePressShort = adaptFPS(5)
+    local F18TimePreLong = adaptFPS(100)
 
 
 
-    clicOn(37,"3028",F18TimePress)
-    clicOn(37,"3028",F18TimePress)
-    clicOn(37,"3012",F18TimePress)
-    clicOn(37,"3020",F18TimePress)
+
+    clicOn(37,"3028",F18TimePreLong)
+    clicOn(37,"3028",F18TimePreLong)
+    clicOn(37,"3012",F18TimePreLong)
+    clicOn(37,"3020",F18TimePreLong)
+
     -- clicOn(37,"3022",40)
     for i, v in ipairs(globalCoords) do
         clicOn(37,"3022",F18TimePress) --20
@@ -353,9 +357,10 @@ function loadInF18()
                 elseif vv == "W" then 
                     clicOn(25,"3022",F18TimePress) --30
                 elseif (vv == "." or vv == "'") then 
-                    clicOn(25,"3029",F18TimePress) --60
+                    clicOn(25,"3029",adaptFPS(100)) --60
                 else            
                     local position = tonumber(vv)
+                    
                     if position ~=nil then 
                         position = position+1
                         if (correspondance[position] ~= nil) then 
@@ -366,8 +371,8 @@ function loadInF18()
             end
         end
 
-        clicOn(25,"3012",F18TimePress) --50
-        clicOn(25,"3010",F18TimePress) --50
+        clicOn(25,"3012",F18TimePreLong) --50
+        clicOn(25,"3010",F18TimePreLong) --50
 
         for ii, vv in ipairs(v["alt"]) do 
             local position = tonumber(vv)
@@ -378,7 +383,7 @@ function loadInF18()
                 end
             end
         end
-        clicOn(25,"3029",F18TimePress)
+        clicOn(25,"3029",F18TimePreLong)
         
     end
     
