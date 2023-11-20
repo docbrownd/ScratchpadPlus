@@ -15,10 +15,10 @@ Depuis la version 2.1, l'interface change afin de limiter le nombre de commande 
  - Un système permettant d'adapter la vitesse d'appuie à vos paramètres graphiques via une liste déroulante où il vous suffit de choisir le nombre le plus proche de vos FPS.
  - Un bouton VR qui activé va empêcher la fenêtre d'enregistrer sa position : si vous l'activer en non VR après avoir positionné la fenêtre au centre, vous vous assurer que la fenêtre ne s'ouvrira jamais en dehors de l'écran en mode VR
  - Pour les pilotes F15E : 
-  - déplacement du bouton Target, qui permet toujours de créer des target point (voir ci-après)
-  - ajout d'une liste déroulante permettant de sélectionner à partir de quel WPT les JDAM doivent ête configurées (voir ci-après)
-  - ajout d'une liste déroulante permettant de sélectionner le type d'emport de l'appareil en JDAM, afin de pouvoir les programmer (voir ci-après)
-  - ajout d'un bouton JDAM permettant de programmer les JDAM à partir des paramètres choisis précédemment
+ 	- déplacement du bouton Target, qui permet toujours de créer des target point (voir ci-après)
+	- ajout d'une liste déroulante permettant de sélectionner à partir de quel WPT les JDAM doivent ête configurées (voir ci-après)
+  	- ajout d'une liste déroulante permettant de sélectionner le type d'emport de l'appareil en JDAM, afin de pouvoir les programmer (voir ci-après)
+  	- ajout d'un bouton JDAM permettant de programmer les JDAM à partir des paramètres choisis précédemment
 
 ![image](https://github.com/docbrownd/ScratchpadPlus/assets/105074220/8551c5aa-4c25-4a58-bfb8-72c8d5e102eb)
 
