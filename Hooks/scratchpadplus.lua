@@ -340,11 +340,11 @@ function loadInF18()
 
     -- clicOn(37,"3022",40)
     for i, v in ipairs(globalCoords) do
-        clicOn(37,"3022",F18TimePress) --20
+        clicOn(37,"3022",F18TimePreLong) --20
       
 
-        clicOn(37,"3015",F18TimePress) --50
-        clicOn(25,"3010",F18TimePress) --50
+        clicOn(37,"3015",F18TimePreLong) --50
+        clicOn(25,"3010",F18TimePreLong) --50
       
         for iii, vvv in ipairs(indexCoords) do
             for ii, vv in ipairs(v[vvv]) do 
