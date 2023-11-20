@@ -20,6 +20,7 @@ Depuis la version 2.1, l'interface change afin de limiter le nombre de commande 
   - ajout d'une liste déroulante permettant de sélectionner le type d'emport de l'appareil en JDAM, afin de pouvoir les programmer (voir ci-après)
   - ajout d'un bouton JDAM permettant de programmer les JDAM à partir des paramètres choisis précédemment
 
+![image](https://github.com/docbrownd/ScratchpadPlus/assets/105074220/8551c5aa-4c25-4a58-bfb8-72c8d5e102eb)
 
 
 ## Export des WPT 
@@ -76,7 +77,7 @@ Ces différentes contraintes expliquent le fonctionnement suivant :
 
 - faites un 'clear' du logiciel => obligatoire !
 - prennez vos WPT comme d'habitude
-- Placez vous sur le menu (cf image ci-après)
+- Placez vous sur la page n°1 du  menu (cf image ci-après)
 - Cliquer sur insert
 
 Le programme va alors :
