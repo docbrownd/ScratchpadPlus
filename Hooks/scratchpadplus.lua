@@ -327,7 +327,7 @@ function loadInF18()
 
     local F18TimePress = adaptFPS(30)
     local F18TimePressSwitch = adaptFPS(50)
-    local F18TimePressShort = adaptFPS(5)
+    local F18TimePressShort = adaptFPS(20)
     local F18TimePreLong = adaptFPS(100)
 
 
