@@ -8,18 +8,19 @@ L'installation et l'utilisation se fait de la même manière que pour Scratchpad
 ## Lancement
 L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 
-## Config possible
+## Nouvelle interface (V2.1)
 
-Sur la plupart des appareils, l'insertion se fait en apuuyant puis en relâchant une touche, or il faut un certains entre ces deux actions pour qu'elles fonctionnent correctement. Il n'est pas possible sur DCS d'attendre un temps déterminé, le seul moyen est d'utiliser un compteur qui s'incrémente à chaque image. Le compteur est donc dépendant du nombre de fps de l'utilisateur. Or il peut aller trop vite ou pas assez vite, il est donc possible depuis la 1.6 de modifier la vitesse d'appuie : 
-- insérer en haut de la fenêtre la commande suivante : #\*2 => multiplie par 2 la durée d'appuie sur une touche. 
-- la nouvelle configuration est sauvegardée il n'est donc pas nécessaire de la retaper à chaque fois
-=> les caractères #* sont obligatoires, ensuite à vous de trouver les valeurs qui vont avec votre système. Pour information, le programme a été codé avec 150fps. 
-Moins vous avez de fps et plus le réglage de base est lent, il faut donc accélérer l'insertion des coordonnées, par exemple de 2x => #*0.5
+Depuis la version 2.1, l'interface change afin de limiter le nombre de commande à taper (notamment en F15E). De nouveaux systèmes sont disponibles : 
 
-Pour les utilisateurs en VR : il est possible de forcer la fenetre à s'ouvrir toujours au même endroit : 
-- Ouvrée la fenêtre en VR et positionnée là où vous voulez.
-- Fermer la fenêtre 
-- Au niveau du fichier de configuration (dossier DCS dans partie enregistrées puis dossier Config => fichier ScratchpadPlusConfig.lua), ajouter "["vr"] = true," (sans les ") dans la partie config
+ - Un système permettant d'adapter la vitesse d'appuie à vos paramètres graphiques via une liste déroulante où il vous suffit de choisir le nombre le plus proche de vos FPS.
+ - Un bouton VR qui activé va empêcher la fenêtre d'enregistrer sa position : si vous l'activer en non VR après avoir positionné la fenêtre au centre, vous vous assurer que la fenêtre ne s'ouvrira jamais en dehors de l'écran en mode VR
+ - Pour les pilotes F15E : 
+  - déplacement du bouton Target, qui permet toujours de créer des target point (voir ci-après)
+  - ajout d'une liste déroulante permettant de sélectionner à partir de quel WPT les JDAM doivent ête configurées (voir ci-après)
+  - ajout d'une liste déroulante permettant de sélectionner le type d'emport de l'appareil en JDAM, afin de pouvoir les programmer (voir ci-après)
+  - ajout d'un bouton JDAM permettant de programmer les JDAM à partir des paramètres choisis précédemment
+
+
 
 ## Export des WPT 
 
@@ -90,29 +91,19 @@ Le programme va alors :
 A partir de la version 1.9, il est possible, sous certaines conditions, d'assigner automatiquement un waypoint à une bombe. Pour cela il faut avoir les bons paramètres (attention, cela va forcément changer suite aux maj à venir des JDAM): 
  - les coordonnées sont rentrées au format target point et dans la route B
  - l'UFC est sur la première page de Menu (avec LAW en PB1)
- - le programme de larguage est configuré pour 9 (si GBU38) ou 7 bombes (si GBU31)
+ - le programme de larguage est configuré correctement
  - l'avion est en mode A/G 
- - le MFD de droite est sur la page SMART WPT et la première bombe (L1) est sélectionnée
+ - le MFD de droite est sur la page SMART WPT et la première bombe est sélectionnée (L1 si bombe sur CTF, pylone du centre dans le cas contraire)
    
-Rentrer ensuite la commande suivante au niveau de la première ligne de ScratchpadPlus :
-
-<code>#j|1|31</code>
-
-Avec : 
- - #j est obligatoire 
- - 1 correspond au n° de WPT à partir duquel les bombes vont être configurés
- - 31 est le type de bombe. Soit 31, soit 38 (pour les 54, rentrez 38)
-
-En fonction de votre config il est possible que le transfère aille trop vite ou trop lentement, ce qui empêche le programme de fonctionner coorectement. Il est alors possible d'augmenter ou de diminuer le temps lors du transfert des coordonnées en ajoutant à la commande un dernier paramètre : 
-
-<code>#j|1|31|300</code> 
-
-=> il y aura une pause de 300 frames entre 2 transfères (config par défaut)
-
-A partir de la version 2.0, l'interface change et permet de programmer les JDAM sans commande : 
- - Sélectionner le n° de WPT à partir duquel commencer via la selectbox 
- - cliquer sur Gbu31 si vous avez 7 GBU31
- - cliquer sur Gbu38 si vous avez 9 GBU38 (d'autres combinaisons seront bientot possible, de même que le réglage de la pause)
+Au niveau de l'interface (à partir de la 2.1) : 
+ - Sélectionner le WPT à partir duquel il faudra commencer la programmation des bombes
+ - choisissez votre configuration d'emport : 3/4/5 GBU31 ou 6/9 GBU38. Attention à bien respecter la position des emports : 
+	- 3 GBU31 => sous les ailes et le pylone central 
+	- 4 GBU31 => sur les CFT
+	- 5 GBU31 => sur les CTF + pylone central 
+	- 6 GBU38 =>  sur les CFT
+	- 9 GBU38 => l'ensemble des pylones 
+ - cliquer sur le bouton JDAM
 
 
 Le programme fera +1 pour chaque WPT, tant que DCS ne sera pas redémarré. 
