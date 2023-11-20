@@ -92,19 +92,21 @@ Le programme va alors :
 A partir de la version 1.9, il est possible, sous certaines conditions, d'assigner automatiquement un waypoint à une bombe. Pour cela il faut avoir les bons paramètres (attention, cela va forcément changer suite aux maj à venir des JDAM): 
  - les coordonnées sont rentrées au format target point et dans la route B
  - l'UFC est sur la première page de Menu (avec LAW en PB1)
- - le programme de larguage est configuré correctement
+ - le programme de larguage est configuré correctement (en cas d'emport mixte, ne pas oublier de switcher de programme pour passer des GBU31 à 38 par exemple)
  - l'avion est en mode A/G 
  - le MFD de droite est sur la page SMART WPT et la première bombe est sélectionnée (L1 si bombe sur CTF, pylone du centre dans le cas contraire)
    
 Au niveau de l'interface (à partir de la 2.1) : 
  - Sélectionner le WPT à partir duquel il faudra commencer la programmation des bombes
- - choisissez votre configuration d'emport : 3/4/5 GBU31 ou 6/9 GBU38. Attention à bien respecter la position des emports : 
-	- 3 GBU31 => sous les ailes et le pylone central 
+ - choisissez votre configuration d'emport : 3/4/5/7 GBU31 ou 6/9 GBU38 (marche aussi avec des GBU54). Attention à bien respecter la position des emports : 
+	- 3 GBU31 => sous les ailes et le pylône central 
 	- 4 GBU31 => sur les CFT
-	- 5 GBU31 => sur les CTF + pylone central 
+	- 5 GBU31 => sur les CTF + pylône central
+ 	- 7 GBU31 => l'ensemble des pylônes 
 	- 6 GBU38 =>  sur les CFT
-	- 9 GBU38 => l'ensemble des pylones 
+	- 9 GBU38 => l'ensemble des pylônes 
  - cliquer sur le bouton JDAM
+
 
 
 Le programme fera +1 pour chaque WPT, tant que DCS ne sera pas redémarré. 
