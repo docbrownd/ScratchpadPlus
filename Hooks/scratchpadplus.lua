@@ -397,7 +397,7 @@ function getClicNumberSmallJDAM(jdamNumber, count)
 
     if (count == 9) then 
         seq = {
-            0,4,7,7,4,3,4,3,7
+            0,4,8,8,4,4,4,3,8
         }
     end
     
@@ -421,7 +421,7 @@ function getClicNumberLargeJDAM(jdamNumber, count)
 
     if (count == 7) then 
         seq =  {
-            0,3,5,5,3,2,5
+            0,3,6,6,3,2,6
         }
     end
 
@@ -1336,7 +1336,7 @@ function loadScratchpad()
         panel:setBounds(0, 0, w, h - 20)
         textarea:setBounds(0, 0, w, h - 20 - 20 - 20 - 20)
 
-        VRSwitch:setBounds(w-70,0,60,20)
+        VRSwitch:setBounds(w-70,0,50,20)
 
         insertCoordsBtn:setBounds(0, h - 80, 50, 20)
         crosshairCheckbox:setBounds(55, h - 79, 20, 20)
