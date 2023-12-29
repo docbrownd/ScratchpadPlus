@@ -45,10 +45,12 @@ local VRSwitch = nil
 local FPSEdit = nil
 local JDAMProg = nil
 local JDAMProgChoice = {"38", 9}
+local CPGChoice = nil
 
 local listWPT = nil
 
 local wpnChoice = ""
+local crewChoice = "CPG"
 
 local lastTime = 0
 
@@ -89,6 +91,8 @@ local doDepress = false
 local insertA10withWPT = false
 local makeAllTargetPont = false
 local forceTargetPoint = false
+
+local apacheCrew = "cpg"
 
 -- local speedModificator = 1
 
@@ -722,6 +726,142 @@ function loadInF15E()
 end
 
 
+function loadInApache()
+    DatasPlane = {}
+    log("in apache")
+    log(crewChoice)
+    --[[
+        B6 right -> mfd right  
+        L2 right -> mfd right 
+        L1 right -> mfd right 
+        enter -> KU
+        name enter  or just enter
+        clear 
+        coord enter N123456 E0123456  (en précise mais sans point)
+        clear  
+        enter (= alti)
+    ]]--
+
+    local MDFRight = 45 -- 43 for pilot
+    local KU =  30 -- 29 for pilot 
+    local timePress = adaptFPS(30)
+
+    if crewChoice == "Pilote" then 
+        MDFRight = 43
+        KU = 29
+    end
+
+
+    local commande = {
+        ['point'] = "3013",
+        ['add'] = "3023", 
+        ["wpt"] = "3024",
+        ["clear"] = "3001",
+        ["enter"] = "3006",
+    }
+
+
+    local correspondances = {
+        ['0']='3043',
+        ['1']='3033',
+        ['2']='3034',
+        ['3']='3035',
+        ['4']='3036',
+        ['5']='3037',
+        ['6']='3038',
+        ['7']='3039',
+        ['8']='3040',
+        ['9']='3041',
+        ['a']='3007',
+        ['b']='3008',
+        ['c']='3009',
+        ['d']='3010',
+        ['e']='3011',
+        ['f']='3012',
+        ['g']='3013',
+        ['h']='3014',
+        ['i']='3015',
+        ['j']='3016',
+        ['k']='3017',
+        ['l']='3018',
+        ['m']='3019',
+        ['n']='3020',
+        ['o']='3021',
+        ['p']='3022',
+        ['q']='3023',
+        ['r']='3024',
+        ['s']='3025',
+        ['t']='3026',
+        ['u']='3027',
+        ['v']='3028',
+        ['w']='3029',
+        ['x']='3030',
+        ['y']='3031',
+        ['z']='3032',
+    }
+
+    for i, v in ipairs(globalCoords) do
+
+        local hasName = false
+
+
+        clicOn(MDFRight,commande["point"], timePress) 
+        clicOn(MDFRight,commande["add"], timePress) 
+        clicOn(MDFRight,commande["wpt"], timePress) 
+        clicOn(KU,commande["enter"], timePress) 
+
+   
+       
+
+
+ 
+        for ii, vv in ipairs(v["wptName"]) do 
+            if vv ~= "" then
+                local value = string.lower(vv)
+                clicOn(KU,correspondances[value], timePress)
+            end
+        end
+
+        clicOn(KU,commande["enter"], timePress) --replace with name
+
+        clicOn(KU,commande["clear"], timePress) 
+
+        local indexCoords = {
+            "lat","long"
+        }
+
+
+        for iii, vvv in ipairs(indexCoords) do
+            for ii, vv in ipairs(v[vvv]) do 
+                local value = string.lower(vv)
+                if (correspondances[value] ~= nil) then 
+                    clicOn(KU,correspondances[value],timePress)
+                end
+            end
+        end
+
+        clicOn(KU,commande["enter"], timePress) 
+
+        for ii, vv in ipairs(v["alt"]) do 
+            if vv ~= "" then
+                local value = string.lower(vv)
+                clicOn(KU,correspondances[value], timePress)
+            end
+        end
+
+        clicOn(KU,commande["enter"], timePress) 
+        clicOn(MDFRight,commande["point"], timePress) 
+
+
+
+       
+    end
+    doLoadCoords = true
+
+
+
+
+end
 
 
 
@@ -1130,21 +1270,28 @@ function loadScratchpad()
 
     end
 
-    function addValToGlobal(lat, long, alt, wptName, wptPosition)
+    function addValToGlobal(lat, long, alt, wptName, wptPosition, airplane)
         local coordLatLonAlt  = {}
         coordLatLonAlt['lat']  = {}
         coordLatLonAlt['long']  = {}
         coordLatLonAlt['alt']  = {}
         coordLatLonAlt['wptName']  = {}
         coordLatLonAlt['wptPosition']  = {}
+        local maxLat = #lat
+        local maxLong = #long
+        if (airplane == "AH-64D_BLK_II") then
+            maxLat = maxLat - 2
+            maxLong = maxLong - 2
+        end
 
-        for j = 0, #lat do 
+
+        for j = 0, maxLat do 
             if tostring(lat:sub(j, j)) ~= " "  then
                 table.insert(coordLatLonAlt['lat'], tostring(lat:sub(j, j)))
             end
         end
 
-        for j = 0, #long do 
+        for j = 0, maxLong do 
             if tostring(long:sub(j, j)) ~= " " then
                 table.insert( coordLatLonAlt['long'], tostring(long:sub(j, j)))
             end
@@ -1177,6 +1324,8 @@ function loadScratchpad()
 
 
     function insertCoordinatesinPlane()
+        local AirplaneType = DCS.getPlayerUnitType()
+
         globalCoords = {}
         local lineText = {}
         local text = textarea:getText()
@@ -1204,7 +1353,7 @@ function loadScratchpad()
                     if string.sub(lineText[i], 1,1) == "*" then 
                         local lineDatas = lineText[i]:gsub("*","")                
                         local splitCoords = split(lineDatas,"|")
-                        addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5])
+                        addValToGlobal(splitCoords[2], splitCoords[3], splitCoords[4],splitCoords[1], splitCoords[5], AirplaneType )
                     end
                 else
                     if (string.sub(lineText[i], 1,1) == "#") then 
@@ -1240,7 +1389,7 @@ function loadScratchpad()
             loadJdam = {}
             textarea:setText(text:gsub(lineText[1],""))
         else 
-            local AirplaneType = DCS.getPlayerUnitType()
+            
             log(AirplaneType)
     
             if AirplaneType == "A-10C_2" then
@@ -1253,6 +1402,8 @@ function loadScratchpad()
                 loadInF16()
             elseif AirplaneType == "F-15ESE" then 
                 loadInF15E()
+            elseif AirplaneType == "AH-64D_BLK_II" then 
+                loadInApache()
             end
         end
 
@@ -1261,6 +1412,14 @@ function loadScratchpad()
 
     end
 
+    function handleApacheBtn(w,h)
+        insertInPlane:setBounds(0, h - 60, 60, 20)
+        CPGChoice:setBounds(120,h-58,80, 18) 
+    end
+
+    function showApacheSpecificBtn(state) 
+        CPGChoice:setVisible(state)
+    end
     
     function handleF15Btn(w,h)
         targetButton:setBounds(0, h - 60, 60, 20)
@@ -1319,6 +1478,15 @@ function loadScratchpad()
         else 
             showF15SpecificBtn(false)
         end
+
+        if AirplaneType == "AH-64D_BLK_II" then 
+            showApacheSpecificBtn(true)
+        else 
+            showApacheSpecificBtn(false)
+        end
+
+        --todo : for AH-64D_BLK_II show listing with CPG/Pilote choice
+
         exportButton:setVisible(true)
         insertInPlane:setVisible(true)
         cleanButton:setVisible(true)
@@ -1338,9 +1506,9 @@ function loadScratchpad()
 
         VRSwitch:setBounds(w-70,0,50,20)
 
-        insertCoordsBtn:setBounds(0, h - 80, 50, 20)
+        
         crosshairCheckbox:setBounds(55, h - 79, 20, 20)
-        insertInPlane:setBounds(80,h-80,60,20)
+        insertCoordsBtn:setBounds(0, h - 80, 50, 20)
         
         FPSEdit:setBounds(150, h - 79, 70, 18)
 
@@ -1357,6 +1525,13 @@ function loadScratchpad()
         if AirplaneType == "F-15ESE" then 
             handleF15Btn(w,h)
         end
+
+        if AirplaneType == "AH-64D_BLK_II" then 
+            handleApacheBtn(w,h)
+        else 
+            insertInPlane:setBounds(80,h-80,60,20)
+        end
+
         
         
         -- if pagesCount > 1 then
@@ -1420,11 +1595,19 @@ function loadScratchpad()
                 showF15SpecificBtn(false)
                 -- targetButton:setVisible(false)
             end
+
+            if AirplaneType == "AH-64D_BLK_II" then 
+                showApacheSpecificBtn(true)
+            else 
+                showApacheSpecificBtn(false)
+            end
+
         else 
             cleanButton:setVisible(false)
             insertInPlane:setVisible(false)
             exportButton:setVisible(false)
             showF15SpecificBtn(false)
+            showApacheSpecificBtn(false)
         end
 
         FPSEdit:setVisible(true)
@@ -1502,6 +1685,26 @@ function loadScratchpad()
             end
         )
 
+
+    end
+
+    function configComboCPG()
+        
+        CPGChoice = ComboBox.new()
+        local item = nil
+        item = CPGChoice:newItem("CPG")
+        CPGChoice:selectItem(item) 
+        CPGChoice:newItem("Pilote")
+        CPGChoice:setTooltipText("Poste")
+        CPGChoice:setSkin(Skin.getSkin("comboListSkin_options"))
+       
+    
+        CPGChoice:addChangeCallback(
+            function(self)
+                crewChoice = self:getText()
+            end
+        )
+        panel:insertWidget(CPGChoice)
 
     end
 
@@ -1626,7 +1829,7 @@ function loadScratchpad()
         configComboBoxFPS()
         configComboBoxWPT()
         configComboBoxJDAM()
-
+        configComboCPG()
         configVRSwitch()
 
 
