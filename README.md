@@ -12,7 +12,7 @@ L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 
 Depuis la version 2.1, l'interface change afin de limiter le nombre de commande à taper (notamment en F15E). De nouveaux systèmes sont disponibles : 
 
- - Un système permettant d'adapter la vitesse d'appuie à vos paramètres graphiques via une liste déroulante où il vous suffit de choisir le nombre le plus proche de vos FPS (le choix est enregistré automatiquement).
+ - Un système permettant d'adapter la vitesse d'appuie à vos paramètres graphiques via une liste déroulante où il vous suffit de choisir le nombre le plus proche de vos FPS. Choisir une valeur légérement au dessus de vos FPS (ctrl droit + pause pour les afficher) (le choix est enregistré automatiquement).
  - Un bouton VR qui activé va empêcher la fenêtre d'enregistrer sa position : si vous l'activer en non VR après avoir positionné la fenêtre au centre, vous vous assurer que la fenêtre ne s'ouvrira jamais en dehors de l'écran en mode VR
  - Pour les pilotes F15E : 
  	- déplacement du bouton Target, qui permet toujours de créer des target point (voir ci-après)
