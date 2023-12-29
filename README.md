@@ -3,7 +3,7 @@ Fork de Scratchpad avec création automatique de WPT
 
 ## Installation
 
-L'installation et l'utilisation se fait de la même manière que pour Scratchpad voir ici : https://github.com/rkusa/dcs-scratchpad
+L'installation et l'utilisation se fait de la même manière que pour Scratchpad voir ici : https://github.com/rkusa/dcs-scratchpad : copier le dossier Hooks et ScratchpadPlus dans Partie enregistrée/DCS/Scripts
 
 ## Lancement
 L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
