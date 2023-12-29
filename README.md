@@ -35,6 +35,9 @@ Si on ne souhaite pas intégrer une coordonnée, il suffit de supprimer l'astér
 ATTENTION : s'il existe des WPT, ils seront écrasés
 
 
+NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord, il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
+
+
 #### F18 : 
 
 - dans HSI>DATA, boxer "Precise" 
@@ -63,8 +66,6 @@ ATTENTION : s'il existe des WPT, ils seront écrasés
 - cliquer simplement sur "insert"
 - Attention : il n'est possible d'insérer que 20 WPT. Après la manière d'ajouter un WPT change sur le F16 car il s'agit d'autres types de WPT (ex en 25 c'est le BE). Il faudra dont revenir manuellement au WPT 1. 
 
-##
-NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord, il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
 
 #### Apache
 Les coordonnées seront rentrées au format N 41°55.59' E 044°10.44' 
@@ -73,7 +74,8 @@ Les coordonnées seront rentrées au format N 41°55.59' E 044°10.44'
 - choisir dans l'interface le poste : CPG ou Pilote
 -  Cliquer sur insert
 -  Possible de nommer un WPT de la même manière que pour l'A10
-  
+
+  ##
 
 #### F15E
 
