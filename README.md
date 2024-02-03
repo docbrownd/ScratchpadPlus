@@ -3,7 +3,7 @@ Fork de Scratchpad avec création automatique de WPT
 
 ## Installation
 
-L'installation et l'utilisation se fait de la même manière que pour Scratchpad voir ici : https://github.com/rkusa/dcs-scratchpad
+L'installation et l'utilisation se fait de la même manière que pour Scratchpad voir ici : https://github.com/rkusa/dcs-scratchpad : copier le dossier Hooks et ScratchpadPlus dans Partie enregistrée/DCS/Scripts
 
 ## Lancement
 L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
@@ -12,7 +12,7 @@ L'ouverture du logiciel se fait par défaut via le raccourci : ctrl+shift+w
 
 Depuis la version 2.1, l'interface change afin de limiter le nombre de commande à taper (notamment en F15E). De nouveaux systèmes sont disponibles : 
 
- - Un système permettant d'adapter la vitesse d'appuie à vos paramètres graphiques via une liste déroulante où il vous suffit de choisir le nombre le plus proche de vos FPS (le choix est enregistré automatiquement).
+ - Un système permettant d'adapter la vitesse d'appuie à vos paramètres graphiques via une liste déroulante où il vous suffit de choisir le nombre le plus proche de vos FPS. Choisir une valeur légérement au dessus de vos FPS (ctrl droit + pause pour les afficher) (le choix est enregistré automatiquement).
  - Un bouton VR qui activé va empêcher la fenêtre d'enregistrer sa position : si vous l'activer en non VR après avoir positionné la fenêtre au centre, vous vous assurer que la fenêtre ne s'ouvrira jamais en dehors de l'écran en mode VR
  - Pour les pilotes F15E : 
  	- déplacement du bouton Target, qui permet toujours de créer des target point (voir ci-après)
@@ -33,6 +33,9 @@ Lors de la prise d'une coordonnée, une nouvelle ligne commençant par un astér
 Si on ne souhaite pas intégrer une coordonnée, il suffit de supprimer l'astérisque.
 
 ATTENTION : s'il existe des WPT, ils seront écrasés
+
+
+NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord, il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
 
 
 #### F18 : 
@@ -63,9 +66,16 @@ ATTENTION : s'il existe des WPT, ils seront écrasés
 - cliquer simplement sur "insert"
 - Attention : il n'est possible d'insérer que 20 WPT. Après la manière d'ajouter un WPT change sur le F16 car il s'agit d'autres types de WPT (ex en 25 c'est le BE). Il faudra dont revenir manuellement au WPT 1. 
 
-##
-NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà inséré les autres, l'ensemble des coordonnées seront de nouveau insérées dans l'ordinateur de bord, il faut donc soit effacer les coordonnées précédentes, soit retirer l'astérisque
 
+#### Apache
+Les coordonnées seront rentrées au format N 41°55.59' E 044°10.44' 
+
+- Mettre l'écran de droite sur TSD
+- choisir dans l'interface le poste : CPG ou Pilote
+-  Cliquer sur insert
+-  Possible de nommer un WPT de la même manière que pour l'A10
+
+  ##
 
 #### F15E
 
