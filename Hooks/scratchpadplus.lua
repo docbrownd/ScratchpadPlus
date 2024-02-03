@@ -17,7 +17,6 @@ package.path  = package.path..";"..lfs.currentdir().."/Scripts/ScratchpadPlus/pl
 
 Terrain = require('terrain')
 
-
 -- Scratchpad resources
 local window = nil
 local windowDefaultSkin = nil
@@ -168,7 +167,7 @@ function insertDatasInPlane()
 end
 
 function adaptFPS(timePress)
-    log(tostring(config.fps))
+    -- log(tostring(config.fps))
     if (config.fps ~= nil and config.fps ~= "") then 
         return math.floor(timePress * tonumber(config.fps) / 180)
     end
@@ -634,6 +633,8 @@ function loadInF15E()
    
 
         for ii, vv in ipairs(wptPosition) do 
+   
+
             if (vv == ".") then 
                 clicOn(deviceF15, "3029",F15TimePress) -- targetpoint (dot)
             else 
@@ -693,10 +694,7 @@ function loadInF15E()
             else 
                 clicOn(deviceF15, commande.addToAlt,F15TimePress)
             end
-        end
-        log("makeAllTargetPont f15")
-        log(tostring(makeAllTargetPont))
-    
+        end   
         
         if (makeAllTargetPont or (v["wptName"] ~= nil and v["wptName"][2] == ".")) then
             for ii, vv in ipairs(wptPosition) do 
@@ -728,8 +726,7 @@ end
 
 function loadInApache()
     DatasPlane = {}
-    log("in apache")
-    log(crewChoice)
+
     --[[
         B6 right -> mfd right  
         L2 right -> mfd right 
@@ -1285,34 +1282,32 @@ function loadScratchpad()
         end
 
 
-        for j = 0, maxLat do 
+        for j = 1, maxLat do 
             if tostring(lat:sub(j, j)) ~= " "  then
                 table.insert(coordLatLonAlt['lat'], tostring(lat:sub(j, j)))
             end
         end
 
-        for j = 0, maxLong do 
+        for j = 1, maxLong do 
             if tostring(long:sub(j, j)) ~= " " then
                 table.insert( coordLatLonAlt['long'], tostring(long:sub(j, j)))
             end
         end
 
-        for j = 0, #alt do 
+        for j = 1, #alt do 
             if tostring(alt:sub(j, j)) ~= " " then
                 table.insert(coordLatLonAlt['alt'], tostring(alt:sub(j, j)))
             end
         end
 
         if wptName~="" then 
-            for j = 0, #wptName do 
+            for j = 1, #wptName do 
                 table.insert(coordLatLonAlt['wptName'], tostring(wptName:sub(j, j)))
             end
         end
 
-        for j = 0, #wptPosition do 
-            if tostring(alt:sub(j, j)) ~= " " and tostring(alt:sub(j, j)) ~= "" then
-                log("wptPosition")
-                log(tostring(wptPosition:sub(j, j)))
+        for j = 1, #wptPosition do 
+            if tostring(wptPosition:sub(j, j)) ~= " " and tostring(wptPosition:sub(j, j)) ~= "" then
                 table.insert(coordLatLonAlt['wptPosition'], tostring(wptPosition:sub(j, j)))
             end
         end
@@ -1347,8 +1342,8 @@ function loadScratchpad()
         
         for i = 1, #lineText do
             if (#loadJdam == 0) then 
-                log("lineText : ")
-                log(lineText[i])
+                -- log("lineText : ")
+                -- log(lineText[i])
                 if (lineText[i] ~="" and lineText[i] ~=" " and lineText[i] ~= nil and string.sub(lineText[i], 1,1) ~= "#")  then
                     if string.sub(lineText[i], 1,1) == "*" then 
                         local lineDatas = lineText[i]:gsub("*","")                
@@ -1357,8 +1352,8 @@ function loadScratchpad()
                     end
                 else
                     if (string.sub(lineText[i], 1,1) == "#") then 
-                        log("2,1 => ")
-                        log(string.sub(lineText[i], 2,2))
+                        -- log("2,1 => ")
+                        -- log(string.sub(lineText[i], 2,2))
                         if  (string.sub(lineText[i], 2,2) == "#") then
                             insertA10withWPT = true
                         elseif ( string.sub(lineText[i], 2,2) == "." ) then
@@ -1367,14 +1362,14 @@ function loadScratchpad()
                             local AirplaneType = DCS.getPlayerUnitType()
                             if AirplaneType == "F-15ESE" then
                                 loadJdam = split(lineText[i],"|")  
-                                log("create jdam prog")
+                                -- log("create jdam prog")
                             end
                         elseif  ( string.sub(lineText[i], 2,2) == "*" ) then 
                             local newConfigSpeed = string.sub(lineText[i], 3)
                             if (newConfigSpeed ~= config.speedModificator and newConfigSpeed~= "") then 
                                 config.speedModificator = newConfigSpeed
-                                log("newConfigSpeed")
-                                log(newConfigSpeed)
+                                -- log("newConfigSpeed")
+                                -- log(newConfigSpeed)
                                 saveConfiguration()
                             end
                         end
@@ -1384,13 +1379,13 @@ function loadScratchpad()
         end
  
         if (#loadJdam > 0) then 
-            log("loadJDAMInF15E")
+            -- log("loadJDAMInF15E")
             loadJDAMInF15E(loadJdam)
             loadJdam = {}
             textarea:setText(text:gsub(lineText[1],""))
         else 
             
-            log(AirplaneType)
+            -- log(AirplaneType)
     
             if AirplaneType == "A-10C_2" then
                 loadInA10()
@@ -1773,9 +1768,9 @@ function loadScratchpad()
             function(self)
                 JDAMProgChoice = {}
                 local bombeType = self:getText():sub(-2)
-                log(bombeType)
+                -- log(bombeType)
                 local numberBomb = self:getText():sub(1,1)
-                log(numberBomb)
+                -- log(numberBomb)
                 JDAMProgChoice = {bombeType, numberBomb} 
                 
             end
@@ -1805,6 +1800,8 @@ function loadScratchpad()
                     config.vr = {enabled = false}
                 end
                 saveConfiguration()
+
+        
             end
         )
 
@@ -1887,7 +1884,7 @@ function loadScratchpad()
         btnF15JDAM:addMouseDownCallback(
             function(self)
                 if (wpnChoice ~= nil and wpnChoice ~= "") then 
-                    log("jdam t 38 ext : "..tostring(wpnChoice))
+                    -- log("jdam t 38 ext : "..tostring(wpnChoice))
                     local number = JDAMProgChoice[2] or "9"
                     local bombType = JDAMProgChoice[1] or "38"
                     local cmd = {
