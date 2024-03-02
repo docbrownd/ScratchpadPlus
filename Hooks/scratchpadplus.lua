@@ -243,7 +243,96 @@ function loadInM2000()
     doLoadCoords = true
 end
 
+function loadInF14()
 
+   
+    local deviceF14 = 24
+    local F14TimePress = adaptFPS(30)
+    local F14TimeLongPress = adaptFPS(300)
+
+
+    log("in f14")
+
+    local correspondances = {  --0 to 9
+        '3535', '3536', '3537','3538','3539','3540','3541','3542','3543','3544',
+    }
+    
+    local wpt = {  
+        '3518', '3519', '3520','3521','3522'
+    }
+
+    local rotator = 3530
+    local rotator_TAC = 0.6
+
+
+    local commande = {
+        ['rotator'] = "3530",
+        ['enter'] = "3534",
+        ['clear'] = "3031", 
+        ["northeast"] = "3533",
+        ["southwest"] = "3032",
+        ["addToLat"] = "3536",
+        ["addToLong"] = "3541",
+        ["addToAlt"] = "3539",
+    }
+
+    DatasPlane = {}
+
+    clicOn(deviceF14, commande.rotator, F14TimeLongPress, rotator_TAC)
+
+    
+    for i, v in ipairs(globalCoords) do
+        
+        local wptPosition = i 
+        if (i <= 5) then 
+            clicOn(deviceF14,wpt[wptPosition],F14TimePress)
+       
+            local indexCoords = {
+                "lat","long", 'alt'
+            }
+
+
+            for iii, vvv in ipairs(indexCoords) do
+                if vvv == "lat" then 
+                    clicOn(deviceF14, commande.addToLat,F14TimePress)
+                elseif vvv == "long" then
+                    clicOn(deviceF14, commande.addToLong,F14TimePress)
+                else
+                    clicOn(deviceF14, commande.addToAlt,F14TimePress)
+                end
+
+                for ii, vv in ipairs(v[vvv]) do 
+                    if vv == "N" then 
+                        clicOn(deviceF14, commande.northeast,F14TimePress)
+                    elseif  vv == "S" then 
+                        clicOn(deviceF14, commande.southwest,F14TimePress)
+                    elseif vv == "E" then 
+                        clicOn(deviceF14, commande.northeast,F14TimePress)
+                    elseif vv == "W" then 
+                        clicOn(deviceF14, commande.southwest,F14TimePress)
+                    elseif (vv == "." or vv == "'") then 
+                        
+                    else            
+                        local position = tonumber(vv)
+                        if position ~=nil then 
+                            position = position+1
+                            if (correspondances[position] ~= nil) then 
+                                clicOn(deviceF14,correspondances[position],F14TimePress)
+                            end
+                        end
+                    end
+                end
+                clicOn(deviceF14,commande.enter,F14TimePress)
+                clicOn(deviceF14,commande.clear,F14TimePress)
+            end   
+        end
+            
+    end
+
+    insertA10withWPT = false
+    doLoadCoords = true
+
+end
 
 
 function loadInF16()
@@ -1281,6 +1370,13 @@ function loadScratchpad()
             maxLong = maxLong - 2
         end
 
+        if (airplane == "F-14B") then
+            maxLat = maxLat - 3
+            maxLong = maxLong - 3
+        end
+
+      
+
 
         for j = 1, maxLat do 
             if tostring(lat:sub(j, j)) ~= " "  then
@@ -1385,7 +1481,7 @@ function loadScratchpad()
             textarea:setText(text:gsub(lineText[1],""))
         else 
             
-            -- log(AirplaneType)
+            log(AirplaneType)
     
             if AirplaneType == "A-10C_2" then
                 loadInA10()
@@ -1399,6 +1495,9 @@ function loadScratchpad()
                 loadInF15E()
             elseif AirplaneType == "AH-64D_BLK_II" then 
                 loadInApache()
+            elseif AirplaneType == "F-14B" then 
+                loadInF14()
+
             end
         end
 
