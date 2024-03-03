@@ -59,7 +59,12 @@ NB : si vous ajoutez une coordonnée dans scratchpad et que vous avez déjà ins
 #### M2000 :
 
 - cliquer simplement sur "insert"
-	
+
+  
+#### F14 : 
+
+Pour le F14, il n'est pour le moment possible de rentrer qu'au maximun 5 WPT en une fois. De plus, à chaque clique sur insert, les WPT sont (re)créés à partir du WPT n°1. Fonctionne côté Pilote comme RIO
+
 
 #### F16 : 
 
