@@ -243,6 +243,99 @@ function loadInM2000()
     doLoadCoords = true
 end
 
+function loadInOH()
+    log("in OH")
+    local deviceScreen = 23
+    local kneeboard = 14    
+    local timePress = adaptFPS(50)
+    local timePressLong = adaptFPS(80)
+
+    DatasPlane = {}
+    if crewChoice == "Pilote" then 
+        deviceScreen = 11
+    end
+    
+    local commande = {
+        hsd = "3009",
+        L1 = "3001",
+        R2 = "3014",
+        L4 = "3004",
+        R4 = "3016",
+        R5 = "3017",
+        north = "3076",
+        south = "3081",
+        east = "3067",
+        west = "3085",
+        clear = '3091',
+        L3 = "3003",
+        L2 = "3002",
+        enter = "3089"
+
+    }
+
+    local correspondances = {  --0 to 9
+        '3062', '3053', '3054','3055','3056','3057','3058','3059','3060','3061',
+    }
+    
+    clicOn(deviceScreen, commande.hsd, timePress)
+    clicOn(deviceScreen, commande.R2, timePress)
+    clicOn(deviceScreen, commande.L4, timePress)
+    clicOn(deviceScreen, commande.R4, timePress)
+
+
+    for i, v in ipairs(globalCoords) do
+        local indexCoords = {
+            "lat","long", 'alt'
+        }
+        clicOn(deviceScreen, commande.L2, timePress)
+        clicOn(kneeboard, commande.clear, timePress)
+
+
+        for iii, vvv in ipairs(indexCoords) do
+            for ii, vv in ipairs(v[vvv]) do 
+                if vv == "N" then 
+                    clicOn(kneeboard, commande.north,timePress)
+                elseif  vv == "S" then 
+                    clicOn(kneeboard, commande.south,timePress)
+                elseif vv == "E" then 
+                    clicOn(kneeboard, commande.east,timePress)
+                elseif vv == "W" then 
+                    clicOn(kneeboard, commande.west,timePress)
+                elseif (vv == "." or vv == "'" or vv =="°") then 
+                    
+                else            
+                    local position = tonumber(vv)
+                    if position ~=nil then 
+                        position = position+1
+                        if (correspondances[position] ~= nil) then 
+                            clicOn(kneeboard,correspondances[position],timePress)
+                        end
+                    end
+                end
+            end
+            if (iii == 1) then 
+                clicOn(kneeboard, commande.enter, timePress)
+                clicOn(deviceScreen, commande.L3, timePress)
+                clicOn(kneeboard, commande.clear, timePress)
+            elseif (iii == 2) then 
+                clicOn(kneeboard, commande.enter, timePress)
+                clicOn(deviceScreen, commande.L4, timePress)
+                clicOn(kneeboard, commande.clear, timePress)
+            else           
+                clicOn(kneeboard, commande.enter, timePress)
+                clicOn(deviceScreen, commande.R5,timePressLong)
+            end
+        end   
+    end
+
+    clicOn(deviceScreen, commande.R4, timePress)
+    clicOn(deviceScreen, commande.hsd, timePress)
+
+
+    doLoadCoords = true
+    
+end
+
 function loadInF14()
 
    
@@ -1365,7 +1458,7 @@ function loadScratchpad()
         coordLatLonAlt['wptPosition']  = {}
         local maxLat = #lat
         local maxLong = #long
-        if (airplane == "AH-64D_BLK_II") then
+        if (airplane == "AH-64D_BLK_II" or airplane == "OH58D") then
             maxLat = maxLat - 2
             maxLong = maxLong - 2
         end
@@ -1497,7 +1590,8 @@ function loadScratchpad()
                 loadInApache()
             elseif AirplaneType == "F-14B" then 
                 loadInF14()
-
+            elseif AirplaneType == 'OH58D' then
+                loadInOH() 
             end
         end
 
@@ -1573,7 +1667,7 @@ function loadScratchpad()
             showF15SpecificBtn(false)
         end
 
-        if AirplaneType == "AH-64D_BLK_II" then 
+        if AirplaneType == "AH-64D_BLK_II" or AirplaneType == 'OH58D'  then 
             showApacheSpecificBtn(true)
         else 
             showApacheSpecificBtn(false)
@@ -1622,7 +1716,9 @@ function loadScratchpad()
 
         if AirplaneType == "AH-64D_BLK_II" then 
             handleApacheBtn(w,h)
-        else 
+        elseif AirplaneType == "OH58D" then
+            handleApacheBtn(w,h)
+        else
             insertInPlane:setBounds(80,h-80,60,20)
         end
 
@@ -1690,7 +1786,7 @@ function loadScratchpad()
                 -- targetButton:setVisible(false)
             end
 
-            if AirplaneType == "AH-64D_BLK_II" then 
+            if AirplaneType == "AH-64D_BLK_II" or AirplaneType=='OH58D' then 
                 showApacheSpecificBtn(true)
             else 
                 showApacheSpecificBtn(false)

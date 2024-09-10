@@ -80,6 +80,13 @@ Les coordonnées seront rentrées au format N 41°55.59' E 044°10.44'
 -  Cliquer sur insert
 -  Possible de nommer un WPT de la même manière que pour l'A10
 
+#### Kiowa
+Les coordonnées seront rentrées au format N 41°55.59' E 044°10.44' 
+
+- choisir dans l'interface le poste : CPG ou Pilote
+-  Cliquer sur insert
+
+
   ##
 
 #### F15E
