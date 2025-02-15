@@ -1588,7 +1588,7 @@ function loadScratchpad()
                 loadInF15E()
             elseif AirplaneType == "AH-64D_BLK_II" then 
                 loadInApache()
-            elseif AirplaneType == "F-14B" then 
+            elseif AirplaneType == "F-14B" or   AirplaneType == "F-14A-135-GR" then 
                 loadInF14()
             elseif AirplaneType == 'OH58D' then
                 loadInOH() 
